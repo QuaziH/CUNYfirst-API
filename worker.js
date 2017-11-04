@@ -1,5 +1,4 @@
 const request = require('request');
-const HTML = require('html-parse-stringify');
 const cheerio = require('cheerio');
 
 let options = {
@@ -20,7 +19,17 @@ let getOptionsFromDropdown = (body, id, callback) => {
     callback(values);
 };
 
+let getICValues = (body, id) => {
+    let $ = cheerio.load(body);
+    let input = $(id).children();
+    let ICValues = {};
 
+    for(let i = 0; i < input.length; i++){
+        ICValues[input[i].attribs.name] = input[i].attribs.value;
+    }
+
+    return ICValues;
+};
 
 let urlProducer = (ICStateNum, ICSID, inst, session) => {
     return 'https://hrsa.cunyfirst.cuny.edu/psc/cnyhcprd/GUEST/HRMS/c/COMMUNITY_ACCESS.CLASS_SEARCH.GBL?ICAJAX=1&ICNAVTYPEDROPDOWN=0&ICType=Panel&ICElementNum=0&ICStateNum='
@@ -52,12 +61,13 @@ let term = (inst, callback) => {
         }
 
         let id ='#win0divPSHIDDENFIELDS';
-        getICValues(body, id, callback);
+        let ICValues = getICValues(body, id);
 
-        let key = body.split("id=\'ICSID\' value=\'")[1].substring(0, 44);
-        let ICStateNum = body.split("id=\'ICStateNum\' value=\'")[1].split("\'")[0];
+        let ICStateNum = ICValues['ICStateNum'];
+        let ICSID = ICValues['ICSID'];
+
         let submit_options = {
-            url: urlProducer(ICStateNum, key, inst, ''),
+            url: urlProducer(ICStateNum, ICSID, inst, ''),
             headers: {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36'},
             jar: options.jar
         };
