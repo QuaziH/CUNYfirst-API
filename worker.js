@@ -55,6 +55,35 @@ let urlProducerClasses = (ICStateNum, ICSID, session, subject) => {
         '&SSR_CLSRCH_WRK_SSR_EXACT_MATCH1$1=G&SSR_CLSRCH_WRK_CATALOG_NBR$1=0&SSR_CLSRCH_WRK_SSR_OPEN_ONLY$chk$5=N'
 };
 
+let section = (inst, term, subject, callback) => {
+    request.get(options, function(error, response, body){
+        if(error){
+            console.log('CUNYfirst is currently offline.');
+        }
+
+        let ICValues = getICValues(body);
+
+        let ICStateNum = ICValues['ICStateNum'];
+        let ICSID = ICValues['ICSID'];
+
+        let submit_options = {
+            url: urlProducer(ICStateNum, ICSID, inst, term),
+            headers: {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36'},
+            jar: options.jar
+        };
+
+        request.get(submit_options, function(error, response, body){
+            submit_options['url'] = urlProducerClasses(++ICStateNum, ICSID, inst, term);
+            request.get(submit_options, function(error, response, body){
+                let classes = {};
+                let $ = cheerio.load(body);
+                console.log(body);
+            })
+        })
+
+    })
+};
+
 let subject = (inst, term, callback) => {
     request.get(options, function(error, response, body){
         if(error){
@@ -114,16 +143,18 @@ let institutions = (callback) => {
     })
 };
 
-subject('QNS01', '1182', function(r){
-    console.log(r);
+section('QNS01', '1182', 'CSCI', function(){
+    console.log();
 });
+
+// subject('QNS01', '1182', function(r){
+//     console.log(r);
+// });
 
 // term('QNS01', function(r){
 //     console.log(r);
 // });
 
-// institutions(function(_){
-//     term('QNS01', function(_){
-//         console.log(_);
-//     });
+// institutions(function(r){
+//     console.log(r);
 // });
