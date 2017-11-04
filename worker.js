@@ -55,6 +55,30 @@ let urlProducerClasses = (ICStateNum, ICSID, session, subject) => {
         '&SSR_CLSRCH_WRK_SSR_EXACT_MATCH1$1=G&SSR_CLSRCH_WRK_CATALOG_NBR$1=0&SSR_CLSRCH_WRK_SSR_OPEN_ONLY$chk$5=N'
 };
 
+let subject = (inst, term, callback) => {
+    request.get(options, function(error, response, body){
+        if(error){
+            console.log('CUNYfirst is currently offline.');
+        }
+
+        let ICValues = getICValues(body);
+
+        let ICStateNum = ICValues['ICStateNum'];
+        let ICSID = ICValues['ICSID'];
+
+        let submit_options = {
+            url: urlProducer(ICStateNum, ICSID, inst, term),
+            headers: {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36'},
+            jar: options.jar
+        };
+
+        request.get(submit_options, function(error, response, body){
+            let id = `#SSR_CLSRCH_WRK_SUBJECT_SRCH\\$0`;
+            getOptionsFromDropdown(body, id, callback);
+        })
+    })
+};
+
 let term = (inst, callback) => {
     request.get(options, function(error, response, body){
         if(error){
@@ -90,9 +114,13 @@ let institutions = (callback) => {
     })
 };
 
-term('QNS01', function(r){
+subject('QNS01', '1182', function(r){
     console.log(r);
 });
+
+// term('QNS01', function(r){
+//     console.log(r);
+// });
 
 // institutions(function(_){
 //     term('QNS01', function(_){
