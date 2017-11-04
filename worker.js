@@ -19,8 +19,9 @@ let getOptionsFromDropdown = (body, id, callback) => {
     callback(values);
 };
 
-let getICValues = (body, id) => {
+let getICValues = (body) => {
     let $ = cheerio.load(body);
+    let id ='#win0divPSHIDDENFIELDS';
     let input = $(id).children();
     let ICValues = {};
 
@@ -60,8 +61,7 @@ let term = (inst, callback) => {
             console.log('CUNYfirst is currently offline.');
         }
 
-        let id ='#win0divPSHIDDENFIELDS';
-        let ICValues = getICValues(body, id);
+        let ICValues = getICValues(body);
 
         let ICStateNum = ICValues['ICStateNum'];
         let ICSID = ICValues['ICSID'];
@@ -71,6 +71,7 @@ let term = (inst, callback) => {
             headers: {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36'},
             jar: options.jar
         };
+
         request.get(submit_options, function(error, response, body){
             let id = `#CLASS_SRCH_WRK2_STRM\\$35\\$`;
             getOptionsFromDropdown(body, id, callback);
