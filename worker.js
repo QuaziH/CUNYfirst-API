@@ -73,11 +73,11 @@ let section = (inst, term, subject, callback) => {
         };
 
         request.get(submit_options, function(error, response, body){
-            submit_options['url'] = urlProducerClasses(++ICStateNum, ICSID, inst, term);
+            submit_options['url'] = urlProducerClasses(++ICStateNum, ICSID, term, subject);
             request.get(submit_options, function(error, response, body){
                 let classes = {};
                 let $ = cheerio.load(body);
-                console.log(body);
+                console.log($('#ACE_\\$ICField\\$4\\$\\$0').children().length);
             })
         })
 
