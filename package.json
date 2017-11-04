@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/QuaziH/CUNYfirst-API#readme",
   "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
     "html-parse-stringify": "^1.0.2",
     "pg": "^7.3.0",
     "request": "^2.83.0"
