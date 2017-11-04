@@ -77,7 +77,8 @@ let section = (inst, term, subject, callback) => {
             request.get(submit_options, function(error, response, body){
                 let classes = {};
                 let $ = cheerio.load(body);
-                console.log($('#ACE_\\$ICField\\$4\\$\\$0').children().length);
+                let id = '#ACE_SSR_CLSRSLT_WRK_GROUPBOX2\\$2';
+                console.log($(id).children()[0].children[2].children[3].children[1].children[0].children[1].children[0].children[0].children[1].children[1].children[2].children[3].children[1].children[0].children[1].children[0].children[0].children[1].children[1].children[2].children[3].children[1].children[1].children[1].children[2].children[1].children[1].children[0].children[0].children[0].data);
             })
         })
 
@@ -143,8 +144,8 @@ let institutions = (callback) => {
     })
 };
 
-section('QNS01', '1182', 'CSCI', function(){
-    console.log();
+section('QNS01', '1182', 'CSCI', function(r){
+    console.log(r);
 });
 
 // subject('QNS01', '1182', function(r){
