@@ -2,7 +2,7 @@ const request = require('request');
 const cheerio = require('cheerio');
 
 let options = {
-    url: 'https://hrsa.cunyfirst.cuny.edu/psc/cnyhcprd/GUEST/HRMS/c/COMMUNITY_ACCESS.CLASS_SEARCH.GBL',
+    url: '',
     headers: {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36'},
     jar: request.jar()
 };
@@ -81,7 +81,6 @@ let section = (inst, term, subject, callback) => {
                 console.log($(id).children()[0].children[2].children[3].children[1].children[0].children[1].children[0].children[0].children[1].children[1].children[2].children[3].children[1].children[0].children[1].children[0].children[0].children[1].children[1].children[2].children[3].children[1].children[1].children[1].children[2].children[1].children[1].children[0].children[0].children[0].data);
             })
         })
-
     })
 };
 
