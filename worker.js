@@ -93,12 +93,9 @@ let section = (inst, term, subject, callback) => {
                         let room = $(`#MTG_ROOM\\$${section}`).text();
                         let instructor = $(`#MTG_INSTR\\$${section}`).text();
                         let dates = $(`#MTG_TOPIC\\$${section}`).text();
+                        let status = $(`#win0divDERIVED_CLSRCH_SSR_STATUS_LONG\\$${section}`).children()[0].children[3].attribs.alt;
                         let description = $(`#DERIVED_CLSRCH_DESCRLONG\\$${section}`).text();
-                        let statusCheck = $(`#win0divDERIVED_CLSRCH_SSR_STATUS_LONG\\$${section}`).children().html();
-                        let status = "Open";
-                        if( statusCheck.indexOf('Closed') > -1){
-                            status = 'Closed';
-                        }
+
 
                         classes[$(idTitle).text()][classNumber] = {};
                         classes[$(idTitle).text()][classNumber]['Class'] = classNumber;
@@ -117,7 +114,7 @@ let section = (inst, term, subject, callback) => {
                     idTitle = `#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$${i}`;
                     idTable = `#ACE_\\$ICField48\\$${i}`;
                 }
-                console.log(classes);
+                // console.log(classes);
                 callback(classes);
             })
         })
@@ -185,15 +182,21 @@ let institutions = (callback) => {
 
 let start = new Date().getTime();
 
-institutions(function(){
-    term('QNS01', function(){
-        subject('QNS01', '1182', function(){
-            section('QNS01', '1182', 'CSCI', function(r){
-                console.log(JSON.stringify(r, undefined, 2));
-                let end = new Date().getTime();
-                let time = end - start;
-                console.log('Execution time: ' + time);
-            });
-        });
-    });
+// institutions(function(){
+//     term('QNS01', function(){
+//         subject('QNS01', '1182', function(){
+//             section('QNS01', '1182', 'CSCI', function(r){
+//                 console.log(JSON.stringify(r, undefined, 2));
+//                 let end = new Date().getTime();
+//                 let time = end - start;
+//                 console.log('Execution time: ' + time);
+//             });
+//         });
+//     });
+// });
+section('QNS01', '1182', 'CSCI', function(r){
+    console.log(JSON.stringify(r, undefined, 2));
+    let end = new Date().getTime();
+    let time = end - start;
+    console.log('Execution time: ' + time);
 });
