@@ -77,13 +77,17 @@ let section = (inst, term, subject, callback) => {
             request.get(submit_options, function(error, response, body){
                 let classes = {};
                 let $ = cheerio.load(body);
-                let id = '#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$';
                 let i = 0;
+                let id = `#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$${i}`;
 
-                while($(id + i.toString()).text() != '[Function]'){
-                    // gonna add id + i;
-                    classes[$(id).text()];
+                while($(id).text() !== '[Function]'){
+                    classes[$(id).text()] = {};
+                    i++;
+                    id = `#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$${i}`;
                 }
+                console.log(classes);
+
+
 
             })
         })
@@ -149,7 +153,7 @@ let institutions = (callback) => {
     })
 };
 
-section('QNS01', '1182', 'CSCI', function(r){
+section('QNS01', '1182', 'ACCT', function(r){
     console.log(r);
 });
 
