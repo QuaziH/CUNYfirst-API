@@ -56,21 +56,21 @@ let urlProducerClasses = (ICStateNum, ICSID, session, subject) => {
 };
 
 let section = (inst, term, subject, callback) => {
-        request.get(options, function(error, response, body){
-            if(error){
-                console.log('CUNYfirst is currently offline.');
-            }
+    request.get(options, function(error, response, body){
+        if(error){
+            console.log('CUNYfirst is currently offline.');
+        }
 
-            let ICValues = getICValues(body);
+        let ICValues = getICValues(body);
 
-            let ICStateNum = ICValues['ICStateNum'];
-            let ICSID = ICValues['ICSID'];
+        let ICStateNum = ICValues['ICStateNum'];
+        let ICSID = ICValues['ICSID'];
 
-            let submit_options = {
-                url: urlProducer(ICStateNum, ICSID, inst, term),
-                headers: {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36'},
-                jar: options.jar
-            };
+        let submit_options = {
+            url: urlProducer(ICStateNum, ICSID, inst, term),
+            headers: {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36'},
+            jar: options.jar
+        };
 
         request.get(submit_options, function(error, response, body){
             submit_options['url'] = urlProducerClasses(++ICStateNum, ICSID, term, subject);
@@ -81,8 +81,6 @@ let section = (inst, term, subject, callback) => {
                 let i = 0;
                 let idTitle = `#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$${i}`;
                 let idTable = `#ACE_\\$ICField48\\$${i}`;
-
-                console.log($(`#win0divDERIVED_CLSRCH_SSR_STATUS_LONG\\${3}`).children()[0]);
 
                 let section = 0;
 
@@ -96,7 +94,7 @@ let section = (inst, term, subject, callback) => {
                         let room = $(`#MTG_ROOM\\$${section}`).text();
                         let instructor = $(`#MTG_INSTR\\$${section}`).text();
                         let dates = $(`#MTG_TOPIC\\$${section}`).text();
-                        // let status =
+                        let status = $(`#win0divDERIVED_CLSRCH_SSR_STATUS_LONG\\$${section}`).children()[0].children[3].attribs.alt;
                         let description = $(`#DERIVED_CLSRCH_DESCRLONG\\$${section}`).text();
 
                         classes[$(idTitle).text()][classNumber] = {};
@@ -106,7 +104,7 @@ let section = (inst, term, subject, callback) => {
                         classes[$(idTitle).text()][classNumber]['Room'] = room;
                         classes[$(idTitle).text()][classNumber]['Instructor'] = instructor;
                         classes[$(idTitle).text()][classNumber]['Dates'] = dates;
-                        // classes[$(idTitle).text()][classNumber]['Status'] = status;
+                        classes[$(idTitle).text()][classNumber]['Status'] = status;
                         classes[$(idTitle).text()][classNumber]['Description'] = description;
 
                         section++;
@@ -116,7 +114,6 @@ let section = (inst, term, subject, callback) => {
                     idTitle = `#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$${i}`;
                     idTable = `#ACE_\\$ICField48\\$${i}`;
                 }
-
                 callback(classes);
             })
         })
@@ -184,15 +181,22 @@ let institutions = (callback) => {
 
 let start = new Date().getTime();
 
-institutions(function(){
-    term('QNS01', function(){
-        subject('QNS01', '1182', function(){
-            section('QNS01', '1182', 'CSCI', function(r){
-                console.log(JSON.stringify(r, undefined, 2));
-                let end = new Date().getTime();
-                let time = end - start;
-                console.log('Execution time: ' + time);
-            });
-        });
-    });
+// institutions(function(){
+//     term('QNS01', function(){
+//         subject('QNS01', '1182', function(){
+//             section('QNS01', '1182', 'CSCI', function(r){
+//                 console.log(JSON.stringify(r, undefined, 2));
+//                 let end = new Date().getTime();
+//                 let time = end - start;
+//                 console.log('Execution time: ' + time);
+//             });
+//         });
+//     });
+// });
+
+section('QNS01', '1182', 'CSCI', function(r){
+    console.log(JSON.stringify(r, undefined, 2));
+    let end = new Date().getTime();
+    let time = end - start;
+    console.log('Execution time: ' + time);
 });
