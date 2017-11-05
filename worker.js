@@ -56,33 +56,40 @@ let urlProducerClasses = (ICStateNum, ICSID, session, subject) => {
 };
 
 let section = (inst, term, subject, callback) => {
-    request.get(options, function(error, response, body){
-        if(error){
-            console.log('CUNYfirst is currently offline.');
-        }
+        request.get(options, function(error, response, body){
+            if(error){
+                console.log('CUNYfirst is currently offline.');
+            }
 
-        let ICValues = getICValues(body);
+            let ICValues = getICValues(body);
 
-        let ICStateNum = ICValues['ICStateNum'];
-        let ICSID = ICValues['ICSID'];
+            let ICStateNum = ICValues['ICStateNum'];
+            let ICSID = ICValues['ICSID'];
 
-        let submit_options = {
-            url: urlProducer(ICStateNum, ICSID, inst, term),
-            headers: {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36'},
-            jar: options.jar
-        };
+            let submit_options = {
+                url: urlProducer(ICStateNum, ICSID, inst, term),
+                headers: {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36'},
+                jar: options.jar
+            };
 
-        request.get(submit_options, function(error, response, body){
-            submit_options['url'] = urlProducerClasses(++ICStateNum, ICSID, term, subject);
             request.get(submit_options, function(error, response, body){
-                let classes = {};
-                let $ = cheerio.load(body);
-                let id = '#ACE_SSR_CLSRSLT_WRK_GROUPBOX2\\$2';
-                console.log($(id).children()[0].children[2].children[3].children[1].children[0].children[1].children[0].children[0].children[1].children[1].children[2].children[3].children[1].children[0].children[1].children[0].children[0].children[1].children[1].children[2].children[3].children[1].children[1].children[1].children[2].children[1].children[1].children[0].children[0].children[0].data);
+                submit_options['url'] = urlProducerClasses(++ICStateNum, ICSID, term, subject);
+                request.get(submit_options, function(error, response, body){
+                    let classes = {};
+                    let $ = cheerio.load(body);
+                    let i = 0;
+                    let id = `#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$${i}`;
+
+                    while($(id).text() !== ''){
+                        classes[$(id).text()] = {};
+                        i++;
+                        id = `#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$${i}`;
+                    }
+                    console.log(classes);
             })
         })
     })
-};
+}
 
 let subject = (inst, term, callback) => {
     request.get(options, function(error, response, body){
@@ -143,7 +150,7 @@ let institutions = (callback) => {
     })
 };
 
-section('QNS01', '1182', 'CSCI', function(r){
+section('QNS01', '1182', 'ACCT', function(r){
     console.log(r);
 });
 
