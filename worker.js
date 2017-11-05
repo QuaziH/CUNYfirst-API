@@ -72,20 +72,52 @@ let section = (inst, term, subject, callback) => {
                 jar: options.jar
             };
 
-            request.get(submit_options, function(error, response, body){
-                submit_options['url'] = urlProducerClasses(++ICStateNum, ICSID, term, subject);
-                request.get(submit_options, function(error, response, body){
-                    let classes = {};
-                    let $ = cheerio.load(body);
-                    let i = 0;
-                    let id = `#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$${i}`;
+        request.get(submit_options, function(error, response, body){
+            submit_options['url'] = urlProducerClasses(++ICStateNum, ICSID, term, subject);
+            request.get(submit_options, function(error, response, body) {
+                let classes = {};
+                let $ = cheerio.load(body);
 
-                    while($(id).text() !== ''){
-                        classes[$(id).text()] = {};
-                        i++;
-                        id = `#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$${i}`;
+                let i = 0;
+                let idTitle = `#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$${i}`;
+                let idTable = `#ACE_\\$ICField48\\$${i}`;
+
+                console.log($(`#win0divDERIVED_CLSRCH_SSR_STATUS_LONG\\${3}`).children()[0]);
+
+                let section = 0;
+
+                while ($(idTitle).text() !== '') {
+                    classes[$(idTitle).text()] = {};
+
+                    for(let j = 0; j < ($(idTable).children()[0].children.length)/4; j++) {
+                        let classNumber = $(`#MTG_CLASS_NBR\\$${section}`).text();
+                        let className = $(`#MTG_CLASSNAME\\$${section}`).text();
+                        let time = $(`#MTG_DAYTIME\\$${section}`).text();
+                        let room = $(`#MTG_ROOM\\$${section}`).text();
+                        let instructor = $(`#MTG_INSTR\\$${section}`).text();
+                        let dates = $(`#MTG_TOPIC\\$${section}`).text();
+                        // let status =
+                        let description = $(`#DERIVED_CLSRCH_DESCRLONG\\$${section}`).text();
+
+                        classes[$(idTitle).text()][classNumber] = {};
+                        classes[$(idTitle).text()][classNumber]['Class'] = classNumber;
+                        classes[$(idTitle).text()][classNumber]['Section'] = className;
+                        classes[$(idTitle).text()][classNumber]['Days & Time'] = time;
+                        classes[$(idTitle).text()][classNumber]['Room'] = room;
+                        classes[$(idTitle).text()][classNumber]['Instructor'] = instructor;
+                        classes[$(idTitle).text()][classNumber]['Dates'] = dates;
+                        // classes[$(idTitle).text()][classNumber]['Status'] = status;
+                        classes[$(idTitle).text()][classNumber]['Description'] = description;
+
+                        section++;
                     }
-                    console.log(classes);
+
+                    i++;
+                    idTitle = `#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$${i}`;
+                    idTable = `#ACE_\\$ICField48\\$${i}`;
+                }
+
+                callback(classes);
             })
         })
     })
@@ -150,18 +182,17 @@ let institutions = (callback) => {
     })
 };
 
-section('QNS01', '1182', 'ACCT', function(r){
-    console.log(r);
+let start = new Date().getTime();
+
+institutions(function(){
+    term('QNS01', function(){
+        subject('QNS01', '1182', function(){
+            section('QNS01', '1182', 'CSCI', function(r){
+                console.log(JSON.stringify(r, undefined, 2));
+                let end = new Date().getTime();
+                let time = end - start;
+                console.log('Execution time: ' + time);
+            });
+        });
+    });
 });
-
-// subject('QNS01', '1182', function(r){
-//     console.log(r);
-// });
-
-// term('QNS01', function(r){
-//     console.log(r);
-// });
-
-// institutions(function(r){
-//     console.log(r);
-// });
