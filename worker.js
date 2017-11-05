@@ -82,6 +82,8 @@ let section = (inst, term, subject, callback) => {
                 let idTitle = `#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$${i}`;
                 let idTable = `#ACE_\\$ICField48\\$${i}`;
 
+                console.log($(`#win0divDERIVED_CLSRCH_SSR_STATUS_LONG\\${3}`).children()[0]);
+
                 let section = 0;
 
                 while ($(idTitle).text() !== '') {
@@ -94,7 +96,7 @@ let section = (inst, term, subject, callback) => {
                         let room = $(`#MTG_ROOM\\$${section}`).text();
                         let instructor = $(`#MTG_INSTR\\$${section}`).text();
                         let dates = $(`#MTG_TOPIC\\$${section}`).text();
-                        let status = $(`#win0divDERIVED_CLSRCH_SSR_STATUS_LONG\\$${section}`).children()[0].children[3].attribs.alt;
+                        // let status =
                         let description = $(`#DERIVED_CLSRCH_DESCRLONG\\$${section}`).text();
 
                         classes[$(idTitle).text()][classNumber] = {};
@@ -104,7 +106,7 @@ let section = (inst, term, subject, callback) => {
                         classes[$(idTitle).text()][classNumber]['Room'] = room;
                         classes[$(idTitle).text()][classNumber]['Instructor'] = instructor;
                         classes[$(idTitle).text()][classNumber]['Dates'] = dates;
-                        classes[$(idTitle).text()][classNumber]['Status'] = status;
+                        // classes[$(idTitle).text()][classNumber]['Status'] = status;
                         classes[$(idTitle).text()][classNumber]['Description'] = description;
 
                         section++;
