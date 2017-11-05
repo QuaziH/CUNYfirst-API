@@ -77,8 +77,14 @@ let section = (inst, term, subject, callback) => {
             request.get(submit_options, function(error, response, body){
                 let classes = {};
                 let $ = cheerio.load(body);
-                let id = '#ACE_SSR_CLSRSLT_WRK_GROUPBOX2\\$2';
-                console.log($(id).children()[0].children[2].children[3].children[1].children[0].children[1].children[0].children[0].children[1].children[1].children[2].children[3].children[1].children[0].children[1].children[0].children[0].children[1].children[1].children[2].children[3].children[1].children[1].children[1].children[2].children[1].children[1].children[0].children[0].children[0].data);
+                let id = '#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$';
+                let i = 0;
+
+                while($(id + i.toString()).text() != '[Function]'){
+                    // gonna add id + i;
+                    classes[$(id).text()];
+                }
+
             })
         })
     })
