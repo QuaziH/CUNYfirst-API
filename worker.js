@@ -77,11 +77,10 @@ let section = (inst, term, subject, callback) => {
             request.get(submit_options, function(error, response, body) {
                 let classes = {};
                 let $ = cheerio.load(body);
+
                 let i = 0;
                 let idTitle = `#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$${i}`;
                 let idTable = `#ACE_\\$ICField48\\$${i}`;
-
-                console.log($(`#win0divDERIVED_CLSRCH_SSR_STATUS_LONG\\$5`).children()[0].children[3].attribs.alt);
 
                 let section = 0;
 
@@ -95,6 +94,7 @@ let section = (inst, term, subject, callback) => {
                         let room = $(`#MTG_ROOM\\$${section}`).text();
                         let instructor = $(`#MTG_INSTR\\$${section}`).text();
                         let dates = $(`#MTG_TOPIC\\$${section}`).text();
+                        let status = $(`#win0divDERIVED_CLSRCH_SSR_STATUS_LONG\\$${section}`).children()[0].children[3].attribs.alt;
                         let description = $(`#DERIVED_CLSRCH_DESCRLONG\\$${section}`).text();
 
                         classes[$(idTitle).text()][classNumber] = {};
@@ -104,7 +104,7 @@ let section = (inst, term, subject, callback) => {
                         classes[$(idTitle).text()][classNumber]['Room'] = room;
                         classes[$(idTitle).text()][classNumber]['Instructor'] = instructor;
                         classes[$(idTitle).text()][classNumber]['Dates'] = dates;
-                        //classes[$(idTitle).text()][classNumber]['Status'] = status;
+                        classes[$(idTitle).text()][classNumber]['Status'] = status;
                         classes[$(idTitle).text()][classNumber]['Description'] = description;
 
                         section++;
@@ -115,7 +115,7 @@ let section = (inst, term, subject, callback) => {
                     idTable = `#ACE_\\$ICField48\\$${i}`;
                 }
 
-                // callback(classes);
+                callback(classes);
             })
         })
     })
@@ -180,18 +180,17 @@ let institutions = (callback) => {
     })
 };
 
-section('QNS01', '1182', 'CSCI', function(r){
-    console.log(JSON.stringify(r, undefined, 2));
+let start = new Date().getTime();
+
+institutions(function(){
+    term('QNS01', function(){
+        subject('QNS01', '1182', function(){
+            section('QNS01', '1182', 'CSCI', function(r){
+                console.log(JSON.stringify(r, undefined, 2));
+                let end = new Date().getTime();
+                let time = end - start;
+                console.log('Execution time: ' + time);
+            });
+        });
+    });
 });
-
-// subject('QNS01', '1182', function(r){
-//     console.log(r);
-// });
-
-// term('QNS01', function(r){
-//     console.log(r);
-// });
-
-// institutions(function(r){
-//     console.log(r);
-// });
