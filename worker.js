@@ -2,7 +2,7 @@ const request = require('request');
 const cheerio = require('cheerio');
 
 let options = {
-    url: 'https://hrsa.cunyfirst.cuny.edu/psc/cnyhcprd/GUEST/HRMS/c/COMMUNITY_ACCESS.CLASS_SEARCH.GBL',
+    url: '',
     headers: {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36'},
     jar: request.jar()
 };
@@ -175,7 +175,7 @@ let institutions = (callback) => {
     })
 };
 
-section('YRK01', '1182', 'TA', function(r){
+section('QNS01', '1182', 'CSCI', function(r){
     console.log(JSON.stringify(r, undefined, 2));
 });
 
