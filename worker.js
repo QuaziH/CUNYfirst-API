@@ -81,6 +81,8 @@ let section = (inst, term, subject, callback) => {
                 let idTitle = `#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$${i}`;
                 let idTable = `#ACE_\\$ICField48\\$${i}`;
 
+                console.log($(`#win0divDERIVED_CLSRCH_SSR_STATUS_LONG\\$5`).children()[0].children[3].attribs.alt);
+
                 let section = 0;
 
                 while ($(idTitle).text() !== '') {
@@ -92,7 +94,8 @@ let section = (inst, term, subject, callback) => {
                         let time = $(`#MTG_DAYTIME\\$${section}`).text();
                         let room = $(`#MTG_ROOM\\$${section}`).text();
                         let instructor = $(`#MTG_INSTR\\$${section}`).text();
-                        let topic = $(`#MTG_TOPIC\\$${section}`).text();
+                        let dates = $(`#MTG_TOPIC\\$${section}`).text();
+                        let description = $(`#DERIVED_CLSRCH_DESCRLONG\\$${section}`).text();
 
                         classes[$(idTitle).text()][classNumber] = {};
                         classes[$(idTitle).text()][classNumber]['Class'] = classNumber;
@@ -100,7 +103,9 @@ let section = (inst, term, subject, callback) => {
                         classes[$(idTitle).text()][classNumber]['Days & Time'] = time;
                         classes[$(idTitle).text()][classNumber]['Room'] = room;
                         classes[$(idTitle).text()][classNumber]['Instructor'] = instructor;
-                        classes[$(idTitle).text()][classNumber]['Topic'] = topic;
+                        classes[$(idTitle).text()][classNumber]['Dates'] = dates;
+                        //classes[$(idTitle).text()][classNumber]['Status'] = status;
+                        classes[$(idTitle).text()][classNumber]['Description'] = description;
 
                         section++;
                     }
@@ -110,7 +115,7 @@ let section = (inst, term, subject, callback) => {
                     idTable = `#ACE_\\$ICField48\\$${i}`;
                 }
 
-                callback(classes);
+                // callback(classes);
             })
         })
     })
