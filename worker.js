@@ -56,21 +56,21 @@ let urlProducerClasses = (ICStateNum, ICSID, session, subject) => {
 };
 
 let section = (inst, term, subject, callback) => {
-    request.get(options, function(error, response, body){
-        if(error){
-            console.log('CUNYfirst is currently offline.');
-        }
+        request.get(options, function(error, response, body){
+            if(error){
+                console.log('CUNYfirst is currently offline.');
+            }
 
-        let ICValues = getICValues(body);
+            let ICValues = getICValues(body);
 
-        let ICStateNum = ICValues['ICStateNum'];
-        let ICSID = ICValues['ICSID'];
+            let ICStateNum = ICValues['ICStateNum'];
+            let ICSID = ICValues['ICSID'];
 
-        let submit_options = {
-            url: urlProducer(ICStateNum, ICSID, inst, term),
-            headers: {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36'},
-            jar: options.jar
-        };
+            let submit_options = {
+                url: urlProducer(ICStateNum, ICSID, inst, term),
+                headers: {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36'},
+                jar: options.jar
+            };
 
         request.get(submit_options, function(error, response, body){
             submit_options['url'] = urlProducerClasses(++ICStateNum, ICSID, term, subject);
@@ -121,7 +121,7 @@ let section = (inst, term, subject, callback) => {
             })
         })
     })
-};
+}
 
 let subject = (inst, term, callback) => {
     request.get(options, function(error, response, body){
