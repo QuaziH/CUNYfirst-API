@@ -81,6 +81,7 @@ let section = (inst, term, subject, callback) => {
                 let i = 0;
                 let idTitle = `#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$${i}`;
                 let idTable = `#ACE_\\$ICField48\\$${i}`;
+
                 let section = 0;
 
                 while ($(idTitle).text() !== '') {
@@ -95,7 +96,6 @@ let section = (inst, term, subject, callback) => {
                         let dates = $(`#MTG_TOPIC\\$${section}`).text();
                         let status = $(`#win0divDERIVED_CLSRCH_SSR_STATUS_LONG\\$${section}`).children()[0].children[3].attribs.alt;
                         let description = $(`#DERIVED_CLSRCH_DESCRLONG\\$${section}`).text();
-
 
                         classes[$(idTitle).text()][classNumber] = {};
                         classes[$(idTitle).text()][classNumber]['Class'] = classNumber;
@@ -114,7 +114,6 @@ let section = (inst, term, subject, callback) => {
                     idTitle = `#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$${i}`;
                     idTable = `#ACE_\\$ICField48\\$${i}`;
                 }
-                // console.log(classes);
                 callback(classes);
             })
         })
@@ -194,6 +193,7 @@ let start = new Date().getTime();
 //         });
 //     });
 // });
+
 section('QNS01', '1182', 'CSCI', function(r){
     console.log(JSON.stringify(r, undefined, 2));
     let end = new Date().getTime();

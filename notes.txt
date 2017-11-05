@@ -1,0 +1,5 @@
+- win0divSSR_CLSRSLT_WRK_GROUPBOX3$27 might be the amount of total classes available
+- also win0divSSR_CLSRCH_MTG1$26
+- Main table: console.log($(id).children()[0].children[2].children[3].children[1].children[0].children[1].children[0].children[0].children[1].children[1].children[2].children[3].children[1].children[0].children[1].children[0].children[0].children[1].children[1].children[2].children[3].children[1].children[1].children[1].children);
+- Gets me the class code for a specific class: console.log($(id).children()[0].children[2].children[3].children[1].children[0].children[1].children[0].children[0].children[1].children[1].children[2].children[3].children[1].children[0].children[1].children[0].children[0].children[1].children[1].children[2].children[3].children[1].children[1].children[1].children[2].children[1].children[1].children[0].children[0].children[0].data);
+- Does something idr anymore: console.log($(id).children()[0].children[2].children[3].children[1].children[0].children[1].children[0].children[0].children);
