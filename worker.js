@@ -1,8 +1,9 @@
+require('dotenv').config();
 const request = require('request');
 const cheerio = require('cheerio');
 
 let options = {
-    url: '',
+    url: process.env.CUNYfirst_url,
     headers: {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36'},
     jar: request.jar()
 };
@@ -359,16 +360,16 @@ let start = new Date().getTime();
 //     console.log('Execution time: ' + time);
 // });
 
-// getSpecificCourse('QNS01', '1182', 'PHYS', '103', function (r) {
-//     console.log(JSON.stringify(r, undefined, 2));
-//     let end = new Date().getTime();
-//     let time = end - start;
-//     console.log('Execution time: ' + time);
-// });
-
-getClassByClassNumber('QNS01', '1182', '22453', function(r){
+getSpecificCourse('QNS01', '1182', 'PHYS', '227', function (r) {
     console.log(JSON.stringify(r, undefined, 2));
     let end = new Date().getTime();
     let time = end - start;
     console.log('Execution time: ' + time);
 });
+
+// getClassByClassNumber('QNS01', '1182', '22453', function(r){
+//     console.log(JSON.stringify(r, undefined, 2));
+//     let end = new Date().getTime();
+//     let time = end - start;
+//     console.log('Execution time: ' + time);
+// });
