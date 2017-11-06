@@ -8,7 +8,7 @@ let options = {
     jar: request.jar()
 };
 
-let getOptionsFromDropdown = (body, id, callback) => {
+let getOptionsFromDropdown = (body, id) => {
     let $ = cheerio.load(body);
     let options = $(id).children();
     let values = {};
@@ -17,7 +17,7 @@ let getOptionsFromDropdown = (body, id, callback) => {
         values[options[i].children[0].data] = options[i].attribs.value;
     }
 
-    callback(values);
+    return values;
 };
 
 let getICValues = (body) => {
@@ -297,81 +297,88 @@ let getClassByClassNumber = (inst, term, classNum) => {
     })
 };
 
-let subject = (inst, term, callback) => {
-    request.get(options, function(error, response, body){
-        if(error){
-            console.log('CUNYfirst is currently offline.');
-        }
+let subject = (inst, term) => {
+    return new Promise((resolve, reject) => {
+        request.get(options, function(error, response, body){
+            if(error){
+                reject('CUNYfirst is currently offline.');
+            }
 
-        let ICValues = getICValues(body);
+            let ICValues = getICValues(body);
 
-        let ICStateNum = ICValues['ICStateNum'];
-        let ICSID = ICValues['ICSID'];
+            let ICStateNum = ICValues['ICStateNum'];
+            let ICSID = ICValues['ICSID'];
 
-        let submit_options = {
-            url: urlProducer(ICStateNum, ICSID, inst, term),
-            headers: {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36'},
-            jar: options.jar
-        };
+            let submit_options = {
+                url: urlProducer(ICStateNum, ICSID, inst, term),
+                headers: {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36'},
+                jar: options.jar
+            };
 
-        request.get(submit_options, function(error, response, body){
-            let id = `#SSR_CLSRCH_WRK_SUBJECT_SRCH\\$0`;
-            getOptionsFromDropdown(body, id, callback);
+            request.get(submit_options, function(error, response, body){
+                let id = `#SSR_CLSRCH_WRK_SUBJECT_SRCH\\$0`;
+                resolve(getOptionsFromDropdown(body, id));
+            })
         })
     })
 };
 
-let term = (inst, callback) => {
-    request.get(options, function(error, response, body){
-        if(error){
-            console.log('CUNYfirst is currently offline.');
-        }
+let term = (inst) => {
+    return new Promise((resolve, reject) => {
+        request.get(options, function(error, response, body){
+            if(error){
+                reject('CUNYfirst is currently offline.');
+            }
 
-        let ICValues = getICValues(body);
+            let ICValues = getICValues(body);
 
-        let ICStateNum = ICValues['ICStateNum'];
-        let ICSID = ICValues['ICSID'];
+            let ICStateNum = ICValues['ICStateNum'];
+            let ICSID = ICValues['ICSID'];
 
-        let submit_options = {
-            url: urlProducer(ICStateNum, ICSID, inst, ''),
-            headers: {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36'},
-            jar: options.jar
-        };
+            let submit_options = {
+                url: urlProducer(ICStateNum, ICSID, inst, ''),
+                headers: {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36'},
+                jar: options.jar
+            };
 
-        request.get(submit_options, function(error, response, body){
-            let id = `#CLASS_SRCH_WRK2_STRM\\$35\\$`;
-            getOptionsFromDropdown(body, id, callback);
+            request.get(submit_options, function(error, response, body){
+                let id = `#CLASS_SRCH_WRK2_STRM\\$35\\$`;
+                resolve(getOptionsFromDropdown(body, id));
+            })
+        })
+    })
+
+};
+
+let institutions = () => {
+    return new Promise((resolve, reject) => {
+        request.get(options, function(error, response, body){
+            if(error){
+                reject('CUNYfirst is currently offline.');
+            }
+
+            let id = `#CLASS_SRCH_WRK2_INSTITUTION\\$31\\$`;
+            resolve(getOptionsFromDropdown(body, id));
         })
     })
 };
 
-let institutions = (callback) => {
-    request.get(options, function(error, response, body){
-        if(error){
-            console.log('CUNYfirst is currently offline.');
-        }
+let getClasses = async () => {
+    let instObj = await institutions();
+    let inst = instObj['Queens College'];
 
-        let id = `#CLASS_SRCH_WRK2_INSTITUTION\\$31\\$`;
-        getOptionsFromDropdown(body, id, callback);
-    })
+    let termObj = await term(inst);
+    let term1 = termObj['2018 Spring Term'];
+
+    let subjObj = await subject(inst, term1);
+    let subj = subjObj['PHYS - Physics'];
+
+    return await getAllSections(inst, term1, subj);
 };
 
 let start = new Date().getTime();
 
-// institutions(function(){
-//     term('QNS01', function(){
-//         subject('QNS01', '1182', function(){
-//             getAllSections('QNS01', '1182', 'CSCI', function(r){
-//                 console.log(JSON.stringify(r, undefined, 2));
-//                 let end = new Date().getTime();
-//                 let time = end - start;
-//                 console.log('Execution time: ' + time);
-//             });
-//         });
-//     });
-// });
-
-getAllSections('QNS01', '1182', 'CSCI').then((classes) => {
+getClasses().then((classes) => {
     console.log(JSON.stringify(classes, undefined, 2));
     let end = new Date().getTime();
     let time = end - start;
@@ -380,7 +387,16 @@ getAllSections('QNS01', '1182', 'CSCI').then((classes) => {
     console.log(error);
 });
 
-// getSpecificCourse('QNS01', '1182', 'PHYS', '227').then((classes) => {
+// getAllSections('QNS01', '1182', 'PHYS').then((classes) => {
+//     console.log(JSON.stringify(classes, undefined, 2));
+//     let end = new Date().getTime();
+//     let time = end - start;
+//     console.log('Execution time: ' + time);
+// }).catch((error) => {
+//     console.log(error);
+// });
+
+// getSpecificCourse('QNS01', '1182', 'CSCI', '220').then((classes) => {
 //     console.log(JSON.stringify(classes, undefined, 2));
 //     let end = new Date().getTime();
 //     let time = end - start;
