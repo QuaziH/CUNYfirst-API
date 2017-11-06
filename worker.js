@@ -81,199 +81,217 @@ let urlProducerClassNumber = (ICStateNum, ICSID, term, classNum) => {
         +classNum
 };
 
-let getAllSections = (inst, term, subject, callback) => {
-    request.get(options, function(error, response, body){
-        if(error){
-            console.log('CUNYfirst is currently offline.');
-        }
+let getAllSections = (inst, term, subject) => {
+    return new Promise((resolve, reject) => {
+        request.get(options, function(error, response, body){
+            if(error){
+                reject('CUNYfirst is currently offline.');
+            }
 
-        let ICValues = getICValues(body);
+            let ICValues = getICValues(body);
 
-        let ICStateNum = ICValues['ICStateNum'];
-        let ICSID = ICValues['ICSID'];
+            let ICStateNum = ICValues['ICStateNum'];
+            let ICSID = ICValues['ICSID'];
 
-        let submit_options = {
-            url: urlProducer(ICStateNum, ICSID, inst, term),
-            headers: {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36'},
-            jar: options.jar
-        };
+            let submit_options = {
+                url: urlProducer(ICStateNum, ICSID, inst, term),
+                headers: {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36'},
+                jar: options.jar
+            };
 
-        request.get(submit_options, function(error, response, body){
-            submit_options['url'] = urlProducerAllClasses(++ICStateNum, ICSID, term, subject);
-            request.get(submit_options, function(error, response, body) {
-                let classes = {};
-                let $ = cheerio.load(body);
-
-                let i = 0;
-                let idTitle = `#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$${i}`;
-                let idTable = `#ACE_\\$ICField48\\$${i}`;
-
-                let section = 0;
-
-                while ($(idTitle).text() !== '') {
-                    classes[$(idTitle).text()] = {};
-
-                    for(let j = 0; j < ($(idTable).children()[0].children.length)/4; j++) {
-                        let classNumber = $(`#MTG_CLASS_NBR\\$${section}`).text();
-                        let className = $(`#MTG_CLASSNAME\\$${section}`).text();
-                        let time = $(`#MTG_DAYTIME\\$${section}`).text();
-                        let room = $(`#MTG_ROOM\\$${section}`).text();
-                        let instructor = $(`#MTG_INSTR\\$${section}`).text();
-                        let dates = $(`#MTG_TOPIC\\$${section}`).text();
-                        let status = $(`#win0divDERIVED_CLSRCH_SSR_STATUS_LONG\\$${section}`).children()[0].children[3].attribs.alt;
-                        let description = $(`#DERIVED_CLSRCH_DESCRLONG\\$${section}`).text();
-
-                        classes[$(idTitle).text()][classNumber] = {};
-                        classes[$(idTitle).text()][classNumber]['Class'] = classNumber;
-                        classes[$(idTitle).text()][classNumber]['Section'] = className;
-                        classes[$(idTitle).text()][classNumber]['Days & Time'] = time;
-                        classes[$(idTitle).text()][classNumber]['Room'] = room;
-                        classes[$(idTitle).text()][classNumber]['Instructor'] = instructor;
-                        classes[$(idTitle).text()][classNumber]['Dates'] = dates;
-                        classes[$(idTitle).text()][classNumber]['Status'] = status;
-                        classes[$(idTitle).text()][classNumber]['Description'] = description;
-
-                        section++;
+            request.get(submit_options, function(error, response, body){
+                submit_options['url'] = urlProducerAllClasses(++ICStateNum, ICSID, term, subject);
+                request.get(submit_options, function(error, response, body) {
+                    if(error){
+                        reject('CUNYfirst is currently offline.');
                     }
 
-                    i++;
-                    idTitle = `#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$${i}`;
-                    idTable = `#ACE_\\$ICField48\\$${i}`;
-                }
+                    let classes = {};
+                    let $ = cheerio.load(body);
 
-                callback(classes);
+                    let i = 0;
+                    let idTitle = `#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$${i}`;
+                    let idTable = `#ACE_\\$ICField48\\$${i}`;
+
+                    let section = 0;
+
+                    while ($(idTitle).text() !== '') {
+                        classes[$(idTitle).text()] = {};
+
+                        for(let j = 0; j < ($(idTable).children()[0].children.length)/4; j++) {
+                            let classNumber = $(`#MTG_CLASS_NBR\\$${section}`).text();
+                            let className = $(`#MTG_CLASSNAME\\$${section}`).text();
+                            let time = $(`#MTG_DAYTIME\\$${section}`).text();
+                            let room = $(`#MTG_ROOM\\$${section}`).text();
+                            let instructor = $(`#MTG_INSTR\\$${section}`).text();
+                            let dates = $(`#MTG_TOPIC\\$${section}`).text();
+                            let status = $(`#win0divDERIVED_CLSRCH_SSR_STATUS_LONG\\$${section}`).children()[0].children[3].attribs.alt;
+                            let description = $(`#DERIVED_CLSRCH_DESCRLONG\\$${section}`).text();
+
+                            classes[$(idTitle).text()][classNumber] = {};
+                            classes[$(idTitle).text()][classNumber]['Class'] = classNumber;
+                            classes[$(idTitle).text()][classNumber]['Section'] = className;
+                            classes[$(idTitle).text()][classNumber]['Days & Time'] = time;
+                            classes[$(idTitle).text()][classNumber]['Room'] = room;
+                            classes[$(idTitle).text()][classNumber]['Instructor'] = instructor;
+                            classes[$(idTitle).text()][classNumber]['Dates'] = dates;
+                            classes[$(idTitle).text()][classNumber]['Status'] = status;
+                            classes[$(idTitle).text()][classNumber]['Description'] = description;
+
+                            section++;
+                        }
+
+                        i++;
+                        idTitle = `#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$${i}`;
+                        idTable = `#ACE_\\$ICField48\\$${i}`;
+                    }
+
+                    resolve(classes);
+                })
             })
         })
     })
 };
 
-let getSpecificCourse = (inst, term, subject, course, callback) => {
-    request.get(options, function(error, response, body){
-        if(error){
-            console.log('CUNYfirst is currently offline.');
-        }
+let getSpecificCourse = (inst, term, subject, course) => {
+    return new Promise((resolve, reject) => {
+        request.get(options, function(error, response, body){
+            if(error){
+                reject('CUNYfirst is currently offline.');
+            }
 
-        let ICValues = getICValues(body);
+            let ICValues = getICValues(body);
 
-        let ICStateNum = ICValues['ICStateNum'];
-        let ICSID = ICValues['ICSID'];
+            let ICStateNum = ICValues['ICStateNum'];
+            let ICSID = ICValues['ICSID'];
 
-        let submit_options = {
-            url: urlProducer(ICStateNum, ICSID, inst, term),
-            headers: {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36'},
-            jar: options.jar
-        };
+            let submit_options = {
+                url: urlProducer(ICStateNum, ICSID, inst, term),
+                headers: {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36'},
+                jar: options.jar
+            };
 
-        request.get(submit_options, function(error, response, body){
-            submit_options['url'] = urlProducerSpecificCourse(++ICStateNum, ICSID, term, subject, course);
-            request.get(submit_options, function(error, response, body) {
-                let classes = {};
-                let $ = cheerio.load(body);
-
-                let i = 0;
-                let idTitle = `#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$${i}`;
-                let idTable = `#ACE_\\$ICField48\\$${i}`;
-
-                let section = 0;
-
-                while ($(idTitle).text() !== '') {
-                    classes[$(idTitle).text()] = {};
-
-                    for(let j = 0; j < ($(idTable).children()[0].children.length)/4; j++) {
-                        let classNumber = $(`#MTG_CLASS_NBR\\$${section}`).text();
-                        let className = $(`#MTG_CLASSNAME\\$${section}`).text();
-                        let time = $(`#MTG_DAYTIME\\$${section}`).text();
-                        let room = $(`#MTG_ROOM\\$${section}`).text();
-                        let instructor = $(`#MTG_INSTR\\$${section}`).text();
-                        let dates = $(`#MTG_TOPIC\\$${section}`).text();
-                        let status = $(`#win0divDERIVED_CLSRCH_SSR_STATUS_LONG\\$${section}`).children()[0].children[3].attribs.alt;
-                        let description = $(`#DERIVED_CLSRCH_DESCRLONG\\$${section}`).text();
-
-                        classes[$(idTitle).text()][classNumber] = {};
-                        classes[$(idTitle).text()][classNumber]['Class'] = classNumber;
-                        classes[$(idTitle).text()][classNumber]['Section'] = className;
-                        classes[$(idTitle).text()][classNumber]['Days & Time'] = time;
-                        classes[$(idTitle).text()][classNumber]['Room'] = room;
-                        classes[$(idTitle).text()][classNumber]['Instructor'] = instructor;
-                        classes[$(idTitle).text()][classNumber]['Dates'] = dates;
-                        classes[$(idTitle).text()][classNumber]['Status'] = status;
-                        classes[$(idTitle).text()][classNumber]['Description'] = description;
-
-                        section++;
+            request.get(submit_options, function(error, response, body){
+                submit_options['url'] = urlProducerSpecificCourse(++ICStateNum, ICSID, term, subject, course);
+                request.get(submit_options, function(error, response, body) {
+                    if(error){
+                        reject('CUNYfirst is currently offline.');
                     }
 
-                    i++;
-                    idTitle = `#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$${i}`;
-                    idTable = `#ACE_\\$ICField48\\$${i}`;
-                }
+                    let classes = {};
+                    let $ = cheerio.load(body);
 
-                callback(classes);
+                    let i = 0;
+                    let idTitle = `#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$${i}`;
+                    let idTable = `#ACE_\\$ICField48\\$${i}`;
+
+                    let section = 0;
+
+                    while ($(idTitle).text() !== '') {
+                        classes[$(idTitle).text()] = {};
+
+                        for(let j = 0; j < ($(idTable).children()[0].children.length)/4; j++) {
+                            let classNumber = $(`#MTG_CLASS_NBR\\$${section}`).text();
+                            let className = $(`#MTG_CLASSNAME\\$${section}`).text();
+                            let time = $(`#MTG_DAYTIME\\$${section}`).text();
+                            let room = $(`#MTG_ROOM\\$${section}`).text();
+                            let instructor = $(`#MTG_INSTR\\$${section}`).text();
+                            let dates = $(`#MTG_TOPIC\\$${section}`).text();
+                            let status = $(`#win0divDERIVED_CLSRCH_SSR_STATUS_LONG\\$${section}`).children()[0].children[3].attribs.alt;
+                            let description = $(`#DERIVED_CLSRCH_DESCRLONG\\$${section}`).text();
+
+                            classes[$(idTitle).text()][classNumber] = {};
+                            classes[$(idTitle).text()][classNumber]['Class'] = classNumber;
+                            classes[$(idTitle).text()][classNumber]['Section'] = className;
+                            classes[$(idTitle).text()][classNumber]['Days & Time'] = time;
+                            classes[$(idTitle).text()][classNumber]['Room'] = room;
+                            classes[$(idTitle).text()][classNumber]['Instructor'] = instructor;
+                            classes[$(idTitle).text()][classNumber]['Dates'] = dates;
+                            classes[$(idTitle).text()][classNumber]['Status'] = status;
+                            classes[$(idTitle).text()][classNumber]['Description'] = description;
+
+                            section++;
+                        }
+
+                        i++;
+                        idTitle = `#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$${i}`;
+                        idTable = `#ACE_\\$ICField48\\$${i}`;
+                    }
+
+                    resolve(classes);
+                })
             })
         })
     })
 };
 
-let getClassByClassNumber = (inst, term, classNum, callback) => {
-    request.get(options, function(error, response, body){
-        if(error){
-            console.log('CUNYfirst is currently offline.');
-        }
+let getClassByClassNumber = (inst, term, classNum) => {
+    return new Promise((resolve, reject) => {
+        request.get(options, function(error, response, body){
+            if(error){
+                reject('CUNYfirst is currently offline.');
+            }
 
-        let ICValues = getICValues(body);
+            let ICValues = getICValues(body);
 
-        let ICStateNum = ICValues['ICStateNum'];
-        let ICSID = ICValues['ICSID'];
+            let ICStateNum = ICValues['ICStateNum'];
+            let ICSID = ICValues['ICSID'];
 
-        let submit_options = {
-            url: urlProducer(ICStateNum, ICSID, inst, term),
-            headers: {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36'},
-            jar: options.jar
-        };
+            let submit_options = {
+                url: urlProducer(ICStateNum, ICSID, inst, term),
+                headers: {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36'},
+                jar: options.jar
+            };
 
-        request.get(submit_options, function(error, response, body){
-            submit_options['url'] = urlProducerClassNumber(++ICStateNum, ICSID, term, classNum);
-            request.get(submit_options, function(error, response, body) {
-                let classes = {};
-                let $ = cheerio.load(body);
-
-                let i = 0;
-                let idTitle = `#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$${i}`;
-                let idTable = `#ACE_\\$ICField48\\$${i}`;
-
-                let section = 0;
-
-                while ($(idTitle).text() !== '') {
-                    classes[$(idTitle).text()] = {};
-
-                    for(let j = 0; j < ($(idTable).children()[0].children.length)/4; j++) {
-                        let classNumber = $(`#MTG_CLASS_NBR\\$${section}`).text();
-                        let className = $(`#MTG_CLASSNAME\\$${section}`).text();
-                        let time = $(`#MTG_DAYTIME\\$${section}`).text();
-                        let room = $(`#MTG_ROOM\\$${section}`).text();
-                        let instructor = $(`#MTG_INSTR\\$${section}`).text();
-                        let dates = $(`#MTG_TOPIC\\$${section}`).text();
-                        let status = $(`#win0divDERIVED_CLSRCH_SSR_STATUS_LONG\\$${section}`).children()[0].children[3].attribs.alt;
-                        let description = $(`#DERIVED_CLSRCH_DESCRLONG\\$${section}`).text();
-
-                        classes[$(idTitle).text()][classNumber] = {};
-                        classes[$(idTitle).text()][classNumber]['Class'] = classNumber;
-                        classes[$(idTitle).text()][classNumber]['Section'] = className;
-                        classes[$(idTitle).text()][classNumber]['Days & Time'] = time;
-                        classes[$(idTitle).text()][classNumber]['Room'] = room;
-                        classes[$(idTitle).text()][classNumber]['Instructor'] = instructor;
-                        classes[$(idTitle).text()][classNumber]['Dates'] = dates;
-                        classes[$(idTitle).text()][classNumber]['Status'] = status;
-                        classes[$(idTitle).text()][classNumber]['Description'] = description;
-
-                        section++;
+            request.get(submit_options, function(error, response, body){
+                submit_options['url'] = urlProducerClassNumber(++ICStateNum, ICSID, term, classNum);
+                request.get(submit_options, function(error, response, body) {
+                    if(error){
+                        reject('CUNYfirst is currently offline.');
                     }
 
-                    i++;
-                    idTitle = `#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$${i}`;
-                    idTable = `#ACE_\\$ICField48\\$${i}`;
-                }
+                    let classes = {};
+                    let $ = cheerio.load(body);
 
-                callback(classes);
+                    let i = 0;
+                    let idTitle = `#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$${i}`;
+                    let idTable = `#ACE_\\$ICField48\\$${i}`;
+
+                    let section = 0;
+
+                    while ($(idTitle).text() !== '') {
+                        classes[$(idTitle).text()] = {};
+
+                        for(let j = 0; j < ($(idTable).children()[0].children.length)/4; j++) {
+                            let classNumber = $(`#MTG_CLASS_NBR\\$${section}`).text();
+                            let className = $(`#MTG_CLASSNAME\\$${section}`).text();
+                            let time = $(`#MTG_DAYTIME\\$${section}`).text();
+                            let room = $(`#MTG_ROOM\\$${section}`).text();
+                            let instructor = $(`#MTG_INSTR\\$${section}`).text();
+                            let dates = $(`#MTG_TOPIC\\$${section}`).text();
+                            let status = $(`#win0divDERIVED_CLSRCH_SSR_STATUS_LONG\\$${section}`).children()[0].children[3].attribs.alt;
+                            let description = $(`#DERIVED_CLSRCH_DESCRLONG\\$${section}`).text();
+
+                            classes[$(idTitle).text()][classNumber] = {};
+                            classes[$(idTitle).text()][classNumber]['Class'] = classNumber;
+                            classes[$(idTitle).text()][classNumber]['Section'] = className;
+                            classes[$(idTitle).text()][classNumber]['Days & Time'] = time;
+                            classes[$(idTitle).text()][classNumber]['Room'] = room;
+                            classes[$(idTitle).text()][classNumber]['Instructor'] = instructor;
+                            classes[$(idTitle).text()][classNumber]['Dates'] = dates;
+                            classes[$(idTitle).text()][classNumber]['Status'] = status;
+                            classes[$(idTitle).text()][classNumber]['Description'] = description;
+
+                            section++;
+                        }
+
+                        i++;
+                        idTitle = `#win0divSSR_CLSRSLT_WRK_GROUPBOX2GP\\$${i}`;
+                        idTable = `#ACE_\\$ICField48\\$${i}`;
+                    }
+
+                    resolve(classes);
+                })
             })
         })
     })
@@ -353,23 +371,29 @@ let start = new Date().getTime();
 //     });
 // });
 
-// getAllSections('QNS01', '1182', 'CSCI', function(r){
-//     console.log(JSON.stringify(r, undefined, 2));
-//     let end = new Date().getTime();
-//     let time = end - start;
-//     console.log('Execution time: ' + time);
-// });
-
-getSpecificCourse('QNS01', '1182', 'PHYS', '227', function (r) {
-    console.log(JSON.stringify(r, undefined, 2));
+getAllSections('QNS01', '1182', 'CSCI').then((classes) => {
+    console.log(JSON.stringify(classes, undefined, 2));
     let end = new Date().getTime();
     let time = end - start;
     console.log('Execution time: ' + time);
+}).catch((error) => {
+    console.log(error);
 });
 
-// getClassByClassNumber('QNS01', '1182', '22453', function(r){
-//     console.log(JSON.stringify(r, undefined, 2));
+// getSpecificCourse('QNS01', '1182', 'PHYS', '227').then((classes) => {
+//     console.log(JSON.stringify(classes, undefined, 2));
 //     let end = new Date().getTime();
 //     let time = end - start;
 //     console.log('Execution time: ' + time);
+// }).catch((error) => {
+//     console.log(error);
+// });
+
+// getClassByClassNumber('QNS01', '1182', '22453').then((classes) => {
+//     console.log(JSON.stringify(classes, undefined, 2));
+//     let end = new Date().getTime();
+//     let time = end - start;
+//     console.log('Execution time: ' + time);
+// }).catch((error) => {
+//     console.log(error);
 // });
