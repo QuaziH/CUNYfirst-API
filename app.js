@@ -1,10 +1,13 @@
 const express = require('express');
 const hbs = require('hbs');
+const bodyParser = require('body-parser');
 const db = require('./db/index');
 
 let app = express();
 
 app.set('view engine', 'hbs');
+
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static(__dirname + 'public'));
 
@@ -23,8 +26,8 @@ app.post('/add', (req, res) => {
     // res.render('index.hbs');
 
     db.query("INSERT INTO classes (phone, institution, term, subject, class_num) VALUES ($1, $2, $3, $4, $5)",
-        [req.phone, req.institution, req.term, req.subject, req.class_num], (error, response) => {
-        console.log(req.phone);
+        [req.body.phone, req.body.institution, req.body.term, req.body.subject, req.body.class_num], (error, response) => {
+        console.log(req.body.phone);
         if (error){
             return console.error('Error fetching client', error);
         }

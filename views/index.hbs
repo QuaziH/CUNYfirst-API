@@ -5,41 +5,35 @@
     <title>Title</title>
 </head>
 <body>
-<form>
-    <select id="inst" name="instatutions">
-        <option value="" selected="selected">Choose college..</option>
-        <option value="QNS01">Queens College</option>
-        <option value="BAR01">Baruch</option>
-        <option value="BKL01">Brooklyn College</option>
-    </select>
+    <form method="POST" action="/add">
+        <select name="institution">
+            <option value="" selected="selected">Choose college..</option>
+            <option value="QNS01">Queens College</option>
+            <option value="BAR01">Baruch</option>
+            <option value="BKL01">Brooklyn College</option>
+        </select>
 
-    <select id="term" name="term">
-        <option value="" selected="selected">Choose term..</option>
-        <option value="1179">Fall 2017 Semester</option>
-        <option value="1182">Spring 2018 Semester</option>
-    </select>
+        <select id="term" name="term">
+            <option value="" selected="selected">Choose term..</option>
+            <option value="1179">Fall 2017 Semester</option>
+            <option value="1182">Spring 2018 Semester</option>
+        </select>
 
-    <select id="subject" name="subject">
-        <option value="" selected="selected">Choose subject..</option>
-        <option value="ACCT">Accounting</option>
-        <option value="CSCI">Cs</option>
-        <option value="ANTH">Anthropology</option>
-        <option value="BIOL">Biology</option>
-    </select>
+        <select id="subject" name="subject">
+            <option value="" selected="selected">Choose subject..</option>
+            <option value="ACCT">Accounting</option>
+            <option value="CSCI">Cs</option>
+            <option value="ANTH">Anthropology</option>
+            <option value="BIOL">Biology</option>
+        </select>
 
-    <input id="courseNum" name="course_name" placeholder="Course Number">
-    <input id="number" name="number" placeholder="Number">
-    <!--<select id="carrier" name="cell_carrier">-->
-    <!--<option value="">Enter carrier..</option>-->
-    <!--<option value="tmob">T-Mobile</option>-->
-    <!--</select>-->
-
-</form>
-
-
-
-<script>
-
-</script>
+        <input type="number" id="class_num" name="class_num" placeholder="Course Number">
+        <input type='text' id="phone" name="phone" placeholder="Number">
+        <input type="submit" />
+        <!--<select id="carrier" name="cell_carrier">-->
+        <!--<option value="">Enter carrier..</option>-->
+        <!--<option value="tmob">T-Mobile</option>-->
+        <!--</select>-->
+    </form>
 </body>
 </html>

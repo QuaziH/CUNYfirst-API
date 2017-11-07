@@ -19,6 +19,11 @@ client.connect();
 //     client.end()
 // });
 
+// client.query("DELETE FROM classes WHERE phone='3475276604'", (err, res) => {
+//     console.log(err, res);
+//     client.end()
+// });
+
 module.exports = {
     query: (text, params, callback) => {
         return client.query(text, params, callback)
