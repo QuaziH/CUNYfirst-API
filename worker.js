@@ -387,14 +387,14 @@ let start = new Date().getTime();
 //     console.log(error);
 // });
 
-getAllSections('QNS01', '1182', 'CSCI').then((classes) => {
-    console.log(JSON.stringify(classes, undefined, 2));
-    let end = new Date().getTime();
-    let time = end - start;
-    console.log('Execution time: ' + time);
-}).catch((error) => {
-    console.log(error);
-});
+// getAllSections('QNS01', '1182', 'CSCI').then((classes) => {
+//     console.log(JSON.stringify(classes, undefined, 2));
+//     let end = new Date().getTime();
+//     let time = end - start;
+//     console.log('Execution time: ' + time);
+// }).catch((error) => {
+//     console.log(error);
+// });
 
 // getSpecificCourse('QNS01', '1182', 'ANTH', '102').then((classes) => {
 //     console.log(JSON.stringify(classes, undefined, 2));
@@ -413,7 +413,3 @@ getAllSections('QNS01', '1182', 'CSCI').then((classes) => {
 // }).catch((error) => {
 //     console.log(error);
 // });
-
-module.exports = {
-    getAllSections
-};
