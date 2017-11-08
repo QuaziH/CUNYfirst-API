@@ -91,15 +91,15 @@ let getAllSections = (inst, term, subject) => {
                             let status = $(`#win0divDERIVED_CLSRCH_SSR_STATUS_LONG\\$${section}`).children()[0].children[3].attribs.alt;
                             let description = $(`#DERIVED_CLSRCH_DESCRLONG\\$${section}`).text();
 
-                            classes[$(idTitle).text()][classNumber] = {};
-                            classes[$(idTitle).text()][classNumber]['Class'] = classNumber;
-                            classes[$(idTitle).text()][classNumber]['Section'] = className;
-                            classes[$(idTitle).text()][classNumber]['Days & Time'] = time;
-                            classes[$(idTitle).text()][classNumber]['Room'] = room;
-                            classes[$(idTitle).text()][classNumber]['Instructor'] = instructor;
-                            classes[$(idTitle).text()][classNumber]['Dates'] = dates;
-                            classes[$(idTitle).text()][classNumber]['Status'] = status;
-                            classes[$(idTitle).text()][classNumber]['Description'] = description;
+                            classes[classNumber] = {};
+                            classes[classNumber]['Class'] = classNumber;
+                            classes[classNumber]['Section'] = className;
+                            classes[classNumber]['Days & Time'] = time;
+                            classes[classNumber]['Room'] = room;
+                            classes[classNumber]['Instructor'] = instructor;
+                            classes[classNumber]['Dates'] = dates;
+                            classes[classNumber]['Status'] = status;
+                            classes[classNumber]['Description'] = description;
 
                             section++;
                         }
@@ -124,3 +124,7 @@ let getAllSections = (inst, term, subject) => {
 // }).catch((error) => {
 //     console.log(error);
 // });
+
+module.exports = {
+    getAllSections
+};

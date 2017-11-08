@@ -1,11 +1,15 @@
+'use strict';
+
 //not in here we will loop through the table and text a person if class is open and if not continue onto the next person
 //inserting will be done in another page or can it be done here?
 require('dotenv').config();
-const { Client } = require('pg');
 
-const database_url = process.env.DATABASE_url;
+var _require = require('pg'),
+    Client = _require.Client;
 
-const client = new Client(database_url);
+var database_url = process.env.DATABASE_url;
+
+var client = new Client(database_url);
 
 client.connect();
 
@@ -25,7 +29,8 @@ client.connect();
 // });
 
 module.exports = {
-    query: (text, params, callback) => {
-        return client.query(text, params, callback)
+    query: function query(text, params, callback) {
+        return client.query(text, params, callback);
     }
 };
+//# sourceMappingURL=index.js.map

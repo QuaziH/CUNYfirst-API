@@ -413,3 +413,7 @@ getAllSections('QNS01', '1182', 'CSCI').then((classes) => {
 // }).catch((error) => {
 //     console.log(error);
 // });
+
+module.exports = {
+    getAllSections
+};

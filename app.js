@@ -8,18 +8,12 @@ let app = express();
 app.set('view engine', 'hbs');
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use(express.static(__dirname + 'public'));
 
 app.get('/', (req, res) => {
    res.render('index.hbs');
-
-    // db.query('SELECT * FROM classes', [], (error, response) => {
-    //     if (error){
-    //         return console.error('Error fetching', error);
-    //     }
-    //     res.send(response.rows);
-    // })
 });
 
 app.post('/add', (req, res) => {
