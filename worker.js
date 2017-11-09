@@ -415,5 +415,6 @@ let start = new Date().getTime();
 // });
 
 module.exports = {
-    subject
+    subject,
+    term
 };
