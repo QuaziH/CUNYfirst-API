@@ -3,9 +3,8 @@ const accountSid = process.env.ACCOUNT_SID;
 const authToken = process.env.AUTH_TOKEN;
 
 const nodemailer = require('nodemailer');
+const htmlToText = require('nodemailer-html-to-text').htmlToText;
 const client = require('twilio')(accountSid, authToken);
-
-//+19082800331
 
 let twilio = (phone, body) => {
     client.messages
@@ -15,7 +14,6 @@ let twilio = (phone, body) => {
             body: body
         })
         .then((message) => console.log(message.sid));
-
 };
 
 let emailOpen = (phone, body) => {
@@ -27,9 +25,12 @@ let emailOpen = (phone, body) => {
         }
     });
 
+    transporter.use('compile', htmlToText());
+
     let mailOptions = {
         from: 'noclosedclass@gmail.com',
         to: phone,
+        html: '<bold></bold>',
         subject: 'Class Opened!',
         text: body
     };
@@ -51,9 +52,12 @@ let emailConfirmation = (phone, body) => {
         }
     });
 
+    transporter.use('compile', htmlToText());
+
     let mailOptions = {
         from: 'noclosedclass@gmail.com',
         to: phone,
+        html:'<bold></bold>',
         subject: 'Confirmation',
         text: body
     };
@@ -78,6 +82,7 @@ let emailError = (phone, body) => {
     let mailOptions = {
         from: 'noclosedclass@gmail.com',
         to: phone,
+        html:'<bold></bold>',
         subject: 'Uh oh',
         text: body
     };
@@ -91,8 +96,8 @@ let emailError = (phone, body) => {
 };
 
 // twilio('3475276604', 'test');
-emailOpen('5164581826@messaging.sprintpcs.com', 'heyyyyy ;););)');
-
+emailOpen('9177160864@vtext.net', 'test');
+// Only T-Mobile and MetroPCS works well
 module.exports = {
     emailOpen,
     emailConfirmation,

@@ -1,0 +1,23 @@
+<component name="libraryTable">
+  <library name="Generated files" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/dist/cf-api.js" />
+        <item url="file://$PROJECT_DIR$/dist/worker.js" />
+        <item url="file://$PROJECT_DIR$/dist/app.js" />
+        <item url="file://$PROJECT_DIR$/dist/looper.js" />
+        <item url="file://$PROJECT_DIR$/dist/text.js" />
+        <item url="file://$PROJECT_DIR$/dist/db/index.js" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/dist/cf-api.js" />
+      <root url="file://$PROJECT_DIR$/dist/worker.js" />
+      <root url="file://$PROJECT_DIR$/dist/app.js" />
+      <root url="file://$PROJECT_DIR$/dist/looper.js" />
+      <root url="file://$PROJECT_DIR$/dist/text.js" />
+      <root url="file://$PROJECT_DIR$/dist/db/index.js" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>
