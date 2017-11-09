@@ -5,9 +5,8 @@ var accountSid = process.env.ACCOUNT_SID;
 var authToken = process.env.AUTH_TOKEN;
 
 var nodemailer = require('nodemailer');
+var htmlToText = require('nodemailer-html-to-text').htmlToText;
 var client = require('twilio')(accountSid, authToken);
-
-//+19082800331
 
 var twilio = function twilio(phone, body) {
     client.messages.create({
@@ -28,9 +27,12 @@ var emailOpen = function emailOpen(phone, body) {
         }
     });
 
+    transporter.use('compile', htmlToText());
+
     var mailOptions = {
         from: 'noclosedclass@gmail.com',
         to: phone,
+        html: '<bold></bold>',
         subject: 'Class Opened!',
         text: body
     };
@@ -52,9 +54,12 @@ var emailConfirmation = function emailConfirmation(phone, body) {
         }
     });
 
+    transporter.use('compile', htmlToText());
+
     var mailOptions = {
         from: 'noclosedclass@gmail.com',
         to: phone,
+        html: '<bold></bold>',
         subject: 'Confirmation',
         text: body
     };
@@ -79,6 +84,7 @@ var emailError = function emailError(phone, body) {
     var mailOptions = {
         from: 'noclosedclass@gmail.com',
         to: phone,
+        html: '<bold></bold>',
         subject: 'Uh oh',
         text: body
     };
@@ -92,8 +98,8 @@ var emailError = function emailError(phone, body) {
 };
 
 // twilio('3475276604', 'test');
-emailOpen('5164581826@messaging.sprintpcs.com', 'heyyyyy ;););)');
-
+emailOpen('9177160864@vtext.net', 'test');
+// Only T-Mobile and MetroPCS works well
 module.exports = {
     emailOpen: emailOpen,
     emailConfirmation: emailConfirmation,

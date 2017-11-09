@@ -23,6 +23,7 @@
     "express": "^4.16.2",
     "hbs": "^4.0.1",
     "nodemailer": "^4.3.1",
+    "nodemailer-html-to-text": "^2.1.0",
     "pg": "^7.4.0",
     "request": "^2.83.0",
     "twilio": "^3.9.2"
