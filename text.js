@@ -1,26 +1,25 @@
-'use strict';
-
 require('dotenv').config();
-var accountSid = process.env.ACCOUNT_SID;
-var authToken = process.env.AUTH_TOKEN;
+const accountSid = process.env.ACCOUNT_SID;
+const authToken = process.env.AUTH_TOKEN;
 
-var nodemailer = require('nodemailer');
-var client = require('twilio')(accountSid, authToken);
+const nodemailer = require('nodemailer');
+const client = require('twilio')(accountSid, authToken);
 
 //+19082800331
 
-var twilio = function twilio(phone, body) {
-    client.messages.create({
-        to: phone,
-        from: '+19082800331',
-        body: body
-    }).then(function (message) {
-        return console.log(message.sid);
-    });
+let twilio = (phone, body) => {
+    client.messages
+        .create({
+            to: phone,
+            from: '+19082800331',
+            body: body
+        })
+        .then((message) => console.log(message.sid));
+
 };
 
-var emailOpen = function emailOpen(phone, body) {
-    var transporter = nodemailer.createTransport({
+let emailOpen = (phone, body) => {
+    let transporter = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
             user: process.env.EMAIL,
@@ -28,14 +27,14 @@ var emailOpen = function emailOpen(phone, body) {
         }
     });
 
-    var mailOptions = {
+    let mailOptions = {
         from: 'noclosedclass@gmail.com',
         to: phone,
         subject: 'Class Opened!',
         text: body
     };
 
-    transporter.sendMail(mailOptions, function (error, info) {
+    transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             return console.log(error);
         }
@@ -43,8 +42,8 @@ var emailOpen = function emailOpen(phone, body) {
     });
 };
 
-var emailConfirmation = function emailConfirmation(phone, body) {
-    var transporter = nodemailer.createTransport({
+let emailConfirmation = (phone, body) => {
+    let transporter = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
             user: process.env.EMAIL,
@@ -52,14 +51,14 @@ var emailConfirmation = function emailConfirmation(phone, body) {
         }
     });
 
-    var mailOptions = {
+    let mailOptions = {
         from: 'noclosedclass@gmail.com',
         to: phone,
         subject: 'Confirmation',
         text: body
     };
 
-    transporter.sendMail(mailOptions, function (error, info) {
+    transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             return console.log(error);
         }
@@ -67,8 +66,8 @@ var emailConfirmation = function emailConfirmation(phone, body) {
     });
 };
 
-var emailError = function emailError(phone, body) {
-    var transporter = nodemailer.createTransport({
+let emailError = (phone, body) => {
+    let transporter = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
             user: process.env.EMAIL,
@@ -76,14 +75,14 @@ var emailError = function emailError(phone, body) {
         }
     });
 
-    var mailOptions = {
+    let mailOptions = {
         from: 'noclosedclass@gmail.com',
         to: phone,
         subject: 'Uh oh',
         text: body
     };
 
-    transporter.sendMail(mailOptions, function (error, info) {
+    transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
             return console.log(error);
         }
@@ -95,9 +94,8 @@ var emailError = function emailError(phone, body) {
 emailOpen('5164581826@messaging.sprintpcs.com', 'heyyyyy ;););)');
 
 module.exports = {
-    emailOpen: emailOpen,
-    emailConfirmation: emailConfirmation,
-    emailError: emailError,
-    twilio: twilio
+    emailOpen,
+    emailConfirmation,
+    emailError,
+    twilio
 };
-//# sourceMappingURL=text.js.map

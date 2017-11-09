@@ -18,21 +18,26 @@ app.get('/', (req, res) => {
     res.render('index.hbs');
 });
 
+app.get('/subjects/:inst', async (req, res) => {
+    let term = await worker.term(req.params.inst);
+    res.send(term);
+});
+
 app.get('/subjects/:inst/:term', async (req, res) => {
-    console.log(req.params);
-    let test = await worker.subject(req.params.inst, req.params.term);
-    console.log(test);
-    res.send(test);
+    let subject = await worker.subject(req.params.inst, req.params.term);
+    res.send(subject);
 });
 
 app.post('/add', (req, res) => {
-    db.query("INSERT INTO classes (phone, institution, term, subject, class_num) VALUES ($1, $2, $3, $4, $5)",
-        [req.body.phone, req.body.institution, req.body.term, req.body.subject, req.body.class_num], (error, response) => {
-        console.log(req.body.phone);
+    db.query("INSERT INTO classes (institution, term, subject, class_num, phone, carrier) VALUES ($1, $2, $3, $4, $5, $6)",
+        [req.body.institution, req.body.term, req.body.subject, req.body.class_num, req.body.phone, req.body.carrier], (error, response) => {
         if (error){
             return console.error('Error inserting into database: ', error);
         }
     });
+    /********************
+    add text to email confirmation here
+    ********************/
     res.redirect('/');
 });
 

@@ -100,6 +100,7 @@ let getAllSections = (inst, term, subject) => {
                             classes[classNumber]['Dates'] = dates;
                             classes[classNumber]['Status'] = status;
                             classes[classNumber]['Description'] = description;
+                            classes[classNumber]['Topic'] = $(idTitle).text();
 
                             section++;
                         }

@@ -417,6 +417,7 @@ var start = new Date().getTime();
 // });
 
 module.exports = {
-    subject: subject
+    subject: subject,
+    term: term
 };
 //# sourceMappingURL=worker.js.map

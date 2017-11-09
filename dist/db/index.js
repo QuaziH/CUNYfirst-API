@@ -13,17 +13,17 @@ var pool = new Pool({
     port: process.env.PORT
 });
 
-// pool.query("INSERT INTO classes(phone, institution, term, subject, class_num) VALUES ('3475276604@smtext.com', 'QNS01', '1182', 'PHYS', 1927)", (err, res) => {
-//     console.log(err, res);
-// });
+// pool.query("INSERT INTO classes(institution, term, subject, class_num, phone, carrier) VALUES ('QNS01', '1182', 'CSCI', 62280, '3475276604', '@smtext.com')");
+// pool.query("INSERT INTO classes(institution, term, subject, class_num, phone, carrier) VALUES ('QNS01', '1182', 'CSCI', 22410, '3475276604', '@smtext.com')");
+// pool.query("INSERT INTO classes(institution, term, subject, class_num, phone, carrier) VALUES ('QNS01', '1182', 'CSCI', 22455, '3475276604', '@smtext.com')");
+// pool.query("INSERT INTO classes(institution, term, subject, class_num, phone, carrier) VALUES ('QNS01', '1182', 'CSCI', 22411, '3475276604', '@smtext.com')");
+// pool.query("INSERT INTO classes(institution, term, subject, class_num, phone, carrier) VALUES ('QNS01', '1182', 'PHYS', 1927, '3475276604', '@smtext.com')");
+// pool.query("INSERT INTO classes(institution, term, subject, class_num, phone, carrier) VALUES ('QNS01', '1182', 'MATH', 22925, '3475276604', '@smtext.com')");
+// pool.query("INSERT INTO classes(institution, term, subject, class_num, phone, carrier) VALUES ('QNS01', '1182', 'MATH', 22919, '3475276604', '@smtext.com')");
 
-// pool.query("SELECT * FROM classes", (err, res) => {
-//     console.log(err, res);
-// });
+// pool.query("SELECT * FROM classes");
 
-// pool.query("DELETE FROM classes", (err, res) => {
-//     console.log(err, res);
-// });
+// pool.query("DELETE FROM classes");
 
 module.exports = {
     query: function query(text, params, callback) {

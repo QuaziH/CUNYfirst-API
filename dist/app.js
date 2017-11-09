@@ -22,24 +22,22 @@ app.get('/', function (req, res) {
     res.render('index.hbs');
 });
 
-app.get('/subjects/:inst/:term', function () {
+app.get('/subjects/:inst', function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res) {
-        var test;
+        var term;
         return regeneratorRuntime.wrap(function _callee$(_context) {
             while (1) {
                 switch (_context.prev = _context.next) {
                     case 0:
-                        console.log(req.params);
-                        _context.next = 3;
-                        return worker.subject(req.params.inst, req.params.term);
+                        _context.next = 2;
+                        return worker.term(req.params.inst);
 
-                    case 3:
-                        test = _context.sent;
+                    case 2:
+                        term = _context.sent;
 
-                        console.log(test);
-                        res.send(test);
+                        res.send(term);
 
-                    case 6:
+                    case 4:
                     case 'end':
                         return _context.stop();
                 }
@@ -52,13 +50,43 @@ app.get('/subjects/:inst/:term', function () {
     };
 }());
 
+app.get('/subjects/:inst/:term', function () {
+    var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
+        var subject;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+            while (1) {
+                switch (_context2.prev = _context2.next) {
+                    case 0:
+                        _context2.next = 2;
+                        return worker.subject(req.params.inst, req.params.term);
+
+                    case 2:
+                        subject = _context2.sent;
+
+                        res.send(subject);
+
+                    case 4:
+                    case 'end':
+                        return _context2.stop();
+                }
+            }
+        }, _callee2, undefined);
+    }));
+
+    return function (_x3, _x4) {
+        return _ref2.apply(this, arguments);
+    };
+}());
+
 app.post('/add', function (req, res) {
-    db.query("INSERT INTO classes (phone, institution, term, subject, class_num) VALUES ($1, $2, $3, $4, $5)", [req.body.phone, req.body.institution, req.body.term, req.body.subject, req.body.class_num], function (error, response) {
-        console.log(req.body.phone);
+    db.query("INSERT INTO classes (institution, term, subject, class_num, phone, carrier) VALUES ($1, $2, $3, $4, $5, $6)", [req.body.institution, req.body.term, req.body.subject, req.body.class_num, req.body.phone, req.body.carrier], function (error, response) {
         if (error) {
             return console.error('Error inserting into database: ', error);
         }
     });
+    /********************
+    add text to email confirmation here
+    ********************/
     res.redirect('/');
 });
 

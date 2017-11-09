@@ -2,9 +2,8 @@
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-require('dotenv').config();
 var db = require('./db/index');
-// const text = require('./text');
+var text = require('./text');
 var api = require('./cf-api');
 
 db.query('SELECT DISTINCT institution, term, subject FROM classes', function () {
@@ -23,7 +22,6 @@ db.query('SELECT DISTINCT institution, term, subject FROM classes', function () 
                         return _context2.abrupt('return', console.error('Error fetching client', error));
 
                     case 2:
-                        console.log(response);
                         _loop = /*#__PURE__*/regeneratorRuntime.mark(function _loop(i) {
                             var allClasses;
                             return regeneratorRuntime.wrap(function _loop$(_context) {
@@ -45,32 +43,42 @@ db.query('SELECT DISTINCT institution, term, subject FROM classes', function () 
                                                     var status = void 0;
                                                     try {
                                                         status = allClasses[response.rows[j].class_num].Status;
-                                                    } catch (err) {
+                                                    } catch (e) {
                                                         //text them that their class might not exist anymore in CUNYfirst
                                                         //delete
-                                                        // db.query(`DELETE FROM classes WHERE phone='${response.row[j].phone}' AND class_num=${response.row[j].class_num}`, (err, res) => {
-                                                        //     if(err) {
-                                                        //         console.error(`Error deleting from database: ${err}`);
-                                                        //     }
-                                                        // });
+                                                        if (response.rows[j].carrier === '@tmomail.net' || response.rows[j].carrier === '@messaging.sprintpcs.com' || response.rows[j].carrier === '@vtext.net' || response.rows[j].carrier === '@txt.att.net' || response.rows[j].carrier === '@mymetropcs.com') {
+                                                            text.emailError('' + response.rows[j].phone + response.rows[j].carrier, 'Your class ' + response.rows[j].class_num + ' does not exist in CUNYfirst anymore');
+                                                        } else {
+                                                            //twilio
+                                                            text.twilio('' + response.rows[j].phone, 'Uh oh! \n Your class ' + response.rows[j].class_num + ' does not exist in CUNYfirst anymore');
+                                                        }
+                                                        db.query('DELETE FROM classes WHERE phone=\'' + response.rows[j].phone + '\' AND class_num=' + response.rows[j].class_num, function (err, res) {
+                                                            if (err) {
+                                                                console.error('Error deleting from database: ' + err);
+                                                            }
+                                                        });
+                                                        continue;
                                                     }
-                                                    console.log(response.rows[j].class_num + ' ' + status);
-                                                    //
-                                                    // if(status === 'Closed') {
-                                                    //     //do nothing...?
-                                                    // } else if (status === 'Open'){
-                                                    //     //text
-                                                    //     //delete by class num and phone num
-                                                    //     db.query(`DELETE FROM classes WHERE phone='${response.row[j].phone}' AND class_num=${response.row[j].class_num}`, (err, res) => {
-                                                    //         if(err) {
-                                                    //             console.error(`Error deleting from database: ${err}`);
-                                                    //         }
-                                                    //     });
-                                                    // } else {
-                                                    //     //text if status doesn't exist
-                                                    //     //delete
-                                                    //     //^ might not need this cause of catch
-                                                    // }
+                                                    // console.log(`${response.rows[j].class_num} ${status}`);
+
+                                                    if (status === 'Closed') {
+                                                        //do nothing...?
+                                                        console.log('Class is still closed ' + response.rows[j].class_num);
+                                                    } else if (status === 'Open') {
+                                                        //text
+                                                        //delete by class num and phone num
+                                                        if (response.rows[j].carrier === '@tmomail.net' || response.rows[j].carrier === '@messaging.sprintpcs.com' || response.rows[j].carrier === '@vtext.com' || response.rows[j].carrier === '@txt.att.net' || response.rows[j].carrier === '@mymetropcs.com') {
+                                                            text.emailOpen('' + response.rows[j].phone + response.rows[j].carrier, 'Your class ' + response.rows[j].class_num + ' is now open!');
+                                                        } else {
+                                                            //twilio
+                                                            text.twilio('' + response.rows[j].phone, 'Class Opened! \n Your class ' + response.rows[j].class_num + ' is now open!');
+                                                        }
+                                                        db.query('DELETE FROM classes WHERE phone=\'' + response.rows[j].phone + '\' AND class_num=' + response.rows[j].class_num, function (err, res) {
+                                                            if (err) {
+                                                                console.error('Error deleting from database: ' + err);
+                                                            }
+                                                        });
+                                                    }
                                                 }
                                             });
 
@@ -83,20 +91,20 @@ db.query('SELECT DISTINCT institution, term, subject FROM classes', function () 
                         });
                         i = 0;
 
-                    case 5:
+                    case 4:
                         if (!(i < response.rows.length)) {
-                            _context2.next = 10;
+                            _context2.next = 9;
                             break;
                         }
 
-                        return _context2.delegateYield(_loop(i), 't0', 7);
+                        return _context2.delegateYield(_loop(i), 't0', 6);
 
-                    case 7:
+                    case 6:
                         i++;
-                        _context2.next = 5;
+                        _context2.next = 4;
                         break;
 
-                    case 10:
+                    case 9:
                     case 'end':
                         return _context2.stop();
                 }

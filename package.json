@@ -24,7 +24,8 @@
     "hbs": "^4.0.1",
     "nodemailer": "^4.3.1",
     "pg": "^7.4.0",
-    "request": "^2.83.0"
+    "request": "^2.83.0",
+    "twilio": "^3.9.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
