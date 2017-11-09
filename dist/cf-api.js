@@ -103,15 +103,6 @@ var getAllSections = function getAllSections(inst, term, subject) {
     });
 };
 
-// getAllSections('QNS01', '1182', 'PHYS').then((classes) => {
-//     console.log(JSON.stringify(classes, undefined, 2));
-//     let end = new Date().getTime();
-//     let time = end - start;
-//     console.log('Execution time: ' + time);
-// }).catch((error) => {
-//     console.log(error);
-// });
-
 module.exports = {
     getAllSections: getAllSections
 };

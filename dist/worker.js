@@ -386,17 +386,17 @@ var start = new Date().getTime();
 //     let time = end - start;
 //     console.log('Execution time: ' + time);
 // }).catch((error) => {
-//     console.log(error);
+//     console.error(error);
 // });
 
-getAllSections('QNS01', '1182', 'CSCI').then(function (classes) {
-    console.log(JSON.stringify(classes, undefined, 2));
-    var end = new Date().getTime();
-    var time = end - start;
-    console.log('Execution time: ' + time);
-}).catch(function (error) {
-    console.log(error);
-});
+// getAllSections('QNS01', '1182', 'CSCI').then((classes) => {
+//     console.log(JSON.stringify(classes, undefined, 2));
+//     let end = new Date().getTime();
+//     let time = end - start;
+//     console.log('Execution time: ' + time);
+// }).catch((error) => {
+//     console.error(error);
+// });
 
 // getSpecificCourse('QNS01', '1182', 'ANTH', '102').then((classes) => {
 //     console.log(JSON.stringify(classes, undefined, 2));
@@ -404,7 +404,7 @@ getAllSections('QNS01', '1182', 'CSCI').then(function (classes) {
 //     let time = end - start;
 //     console.log('Execution time: ' + time);
 // }).catch((error) => {
-//     console.log(error);
+//     console.error(error);
 // });
 
 // getClassByClassNumber('QNS01', '1182', '22453').then((classes) => {
@@ -413,10 +413,10 @@ getAllSections('QNS01', '1182', 'CSCI').then(function (classes) {
 //     let time = end - start;
 //     console.log('Execution time: ' + time);
 // }).catch((error) => {
-//     console.log(error);
+//     console.error(error);
 // });
 
 module.exports = {
-    getAllSections: getAllSections
+    subject: subject
 };
 //# sourceMappingURL=worker.js.map

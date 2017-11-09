@@ -384,7 +384,7 @@ let start = new Date().getTime();
 //     let time = end - start;
 //     console.log('Execution time: ' + time);
 // }).catch((error) => {
-//     console.log(error);
+//     console.error(error);
 // });
 
 // getAllSections('QNS01', '1182', 'CSCI').then((classes) => {
@@ -393,7 +393,7 @@ let start = new Date().getTime();
 //     let time = end - start;
 //     console.log('Execution time: ' + time);
 // }).catch((error) => {
-//     console.log(error);
+//     console.error(error);
 // });
 
 // getSpecificCourse('QNS01', '1182', 'ANTH', '102').then((classes) => {
@@ -402,7 +402,7 @@ let start = new Date().getTime();
 //     let time = end - start;
 //     console.log('Execution time: ' + time);
 // }).catch((error) => {
-//     console.log(error);
+//     console.error(error);
 // });
 
 // getClassByClassNumber('QNS01', '1182', '22453').then((classes) => {
@@ -411,5 +411,9 @@ let start = new Date().getTime();
 //     let time = end - start;
 //     console.log('Execution time: ' + time);
 // }).catch((error) => {
-//     console.log(error);
+//     console.error(error);
 // });
+
+module.exports = {
+    subject
+};
