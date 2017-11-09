@@ -3,16 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>No Closed Class</title>
+    <script src=""></script>
 
-    <script src="../public/js/jquery-3.2.1.min.js"></script>
 </head>
 <body>
+
     <form method="POST" action="/add">
         <select name="institution" id="institution" onchange="getInstVal(event)">
             <option value="" selected="selected">Choose college...</option>
-            <option value="QNS01">Queens College</option>
-            <option value="BAR01">Baruch</option>
+            <option value="" selected="selected">Choose college...</option>
+            <option value="BAR01">Baruch College</option>
+            <option value="BMC01">Borough of Manhattan CC</option>
+            <option value="BCC01">Bronx CC</option>
             <option value="BKL01">Brooklyn College</option>
+            <option value="LAW01">CUNY School of Law</option>
+            <option value="MED01">CUNY School of Medicine</option>
+            <option value="SPH01">CUNY School of Public Health</option>
+            <option value="CTY01">City College</option>
+            <option value="CSI01">College of Staten Island</option>
+            <option value="NCC01">Guttman CC</option>
+            <option value="HOS01">Hostos CC</option>
+            <option value="HTR01">Hunter College</option>
+            <option value="JJC01">John Jay College</option>
+            <option value="KCC01">Kingsborough CC</option>
+            <option value="LAG01">LaGuardia CC</option>
+            <option value="LEH01">Lehman College</option>
+            <option value="MEC01">Medgar Evers College</option>
+            <option value="NYT01">NYC College of Technology</option>
+            <option value="QNS01">Queens College</option>
+            <option value="QCC01">Queensborough CC</option>
+            <option value="SPS01">School of Professional Studies</option>
+            <option value="YRK01">York College</option></select>
         </select>
 
         <select id="term" name="term" onchange="getInstTermVal(event)">
@@ -25,18 +46,50 @@
 
         <input type="number" id="class_num" name="class_num" placeholder="Course Number">
 
-        <input type='text' id="phone" name="phone" placeholder="Number">
+        <input type='text' id="phone" name="phone" placeholder="Phone Number">
 
         <select id="carrier" name="carrier">
             <option value="">Enter carrier...</option>
             <option value="@tmomail.net">T-Mobile</option>
+            <option value="">AT&T</option>
+            <option value="">Sprint</option>
+            <option value="">Verizon</option>
+            <option value="@mymetropcs.com">MetroPCS</option>
+            <option value="">Simple Mobile</option>
+            <option value="">Cricket</option>
+            <option value="">Virgin Mobile</option>
+            <option value="">Ting</option>
+            <option value="">Boost Mobile</option>
+            <option value="">Ultra Mobile</option>
+            <option value="">H20 Wireless</option>
+            <option value="">Other</option>
         </select>
 
         <input type="submit" />
     </form>
 </body>
+
 <script>
+    function getInst(event) {
+            fetch(`/subjects/`).then(async (res) => {
+                let term = await res.json();
+                for(let key in term){
+                    if(term.hasOwnProperty(key)){
+                        $('#institution').append($('<option>', {
+                            value: term[key],
+                            text : key
+                        }));
+                    }
+                }
+            });
+
+    } //Only use for pulling Institutions
+
     function getInstVal(event) {
+        document.getElementById('term').options.length = 0;
+        $('#term').append('<option value="">Choose Term...</option>');
+//        $('#term').find('option').empty().append('<option value="">Choose Term...</option>');
+
         if (document.querySelector('#institution').value !== '') {
             fetch(`/subjects/${document.querySelector('#institution').value}`).then(async (res) => {
                 let term = await res.json();
@@ -53,6 +106,9 @@
     }
 
     function getInstTermVal(event) {
+        document.getElementById('subject').options.length = 0;
+        $('#subject').append('<option value="">Choose Subject...</option>');
+
         if (document.querySelector('#institution').value !== '' && document.querySelector('#term').value !== '') {
             fetch(`/subjects/${document.querySelector('#institution').value}/${document.querySelector('#term').value}`).then(async (res) => {
                 let subject = await res.json();
