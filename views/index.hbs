@@ -3,14 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>No Closed Class</title>
-    <script src=""></script>
 
+    <script src="../public/js/jquery-3.2.1.min.js"></script>
 </head>
 <body>
-
     <form method="POST" action="/add">
         <select name="institution" id="institution" onchange="getInstVal(event)">
-            <option value="" selected="selected">Choose college...</option>
             <option value="" selected="selected">Choose college...</option>
             <option value="BAR01">Baruch College</option>
             <option value="BMC01">Borough of Manhattan CC</option>
@@ -50,8 +48,8 @@
 
         <select id="carrier" name="carrier">
             <option value="">Enter carrier...</option>
-            <option value="@tmomail.net">T-Mobile</option>
             <option value="">AT&T</option>
+            <option value="@tmomail.net">T-Mobile</option>
             <option value="">Sprint</option>
             <option value="">Verizon</option>
             <option value="@mymetropcs.com">MetroPCS</option>
