@@ -5,6 +5,7 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 var express = require('express');
 var hbs = require('hbs');
 var bodyParser = require('body-parser');
+var text = require('./text');
 var db = require('./db/index');
 var worker = require('./worker');
 
@@ -79,14 +80,16 @@ app.get('/subjects/:inst/:term', function () {
 }());
 
 app.post('/add', function (req, res) {
-    db.query("INSERT INTO classes (institution, term, subject, class_num, phone, carrier) VALUES ($1, $2, $3, $4, $5, $6)", [req.body.institution, req.body.term, req.body.subject, req.body.class_num, req.body.phone, req.body.carrier], function (error, response) {
+    db.query("INSERT INTO classes (institution, term, subject, topic, class_num, phone, carrier) VALUES ($1, $2, $3, $4, $5, $6, $7)", [req.body.institution, req.body.term, req.body.subject, req.body.topic, req.body.class_num, req.body.phone, req.body.carrier], function (error, response) {
         if (error) {
             return console.error('Error inserting into database: ', error);
         }
     });
-    /********************
-    add text to email confirmation here
-    ********************/
+    if (req.body.carrier === '@tmomail.net' || req.body.carrier === '@mymetropcs.com') {
+        text.emailConfirmation('' + req.body.phone + req.body.carrier, 'Your classes have been added.');
+    } else {
+        text.twilio('' + req.body.phone, 'Your classes have been added.');
+    }
     res.redirect('/');
 });
 

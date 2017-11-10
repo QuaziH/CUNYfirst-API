@@ -387,7 +387,7 @@ let start = new Date().getTime();
 //     console.error(error);
 // });
 
-// getAllSections('QNS01', '1182', 'CSCI').then((classes) => {
+// getAllSections('BAR01', '1182', 'ACC').then((classes) => {
 //     console.log(JSON.stringify(classes, undefined, 2));
 //     let end = new Date().getTime();
 //     let time = end - start;

@@ -66,8 +66,6 @@ var getAllSections = function getAllSections(inst, term, subject) {
                     var section = 0;
 
                     while ($(idTitle).text() !== '') {
-                        classes[$(idTitle).text()] = {};
-
                         for (var j = 0; j < $(idTable).children()[0].children.length / 4; j++) {
                             var classNumber = $('#MTG_CLASS_NBR\\$' + section).text();
                             var className = $('#MTG_CLASSNAME\\$' + section).text();
@@ -77,6 +75,7 @@ var getAllSections = function getAllSections(inst, term, subject) {
                             var dates = $('#MTG_TOPIC\\$' + section).text();
                             var status = $('#win0divDERIVED_CLSRCH_SSR_STATUS_LONG\\$' + section).children()[0].children[3].attribs.alt;
                             var description = $('#DERIVED_CLSRCH_DESCRLONG\\$' + section).text();
+                            var topic = $(idTitle).text().substring(1, $(idTitle).text().indexOf('-'));
 
                             classes[classNumber] = {};
                             classes[classNumber]['Class'] = classNumber;
@@ -87,7 +86,7 @@ var getAllSections = function getAllSections(inst, term, subject) {
                             classes[classNumber]['Dates'] = dates;
                             classes[classNumber]['Status'] = status;
                             classes[classNumber]['Description'] = description;
-                            classes[classNumber]['Topic'] = $(idTitle).text();
+                            classes[classNumber]['Topic'] = topic;
 
                             section++;
                         }
