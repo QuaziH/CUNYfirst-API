@@ -16,7 +16,7 @@ const pool = new Pool({
 // pool.query("INSERT INTO classes(institution, term, subject, class_num, phone, carrier) VALUES ('QNS01', '1182', 'CSCI', 22411, '3475276604', '@smtext.com')");
 // pool.query("INSERT INTO classes(institution, term, subject, class_num, phone, carrier) VALUES ('QNS01', '1182', 'PHYS', 1927, '3475276604', '@smtext.com')");
 // pool.query("INSERT INTO classes(institution, term, subject, class_num, phone, carrier) VALUES ('QNS01', '1182', 'MATH', 22925, '3475276604', '@smtext.com')");
-// pool.query("INSERT INTO classes(institution, term, subject, class_num, phone, carrier) VALUES ('QNS01', '1182', 'MATH', 22919, '3475276604', '@smtext.com')");
+// pool.query("INSERT INTO classes(institution, term, subject, topic, class_num, phone, carrier) VALUES ('QNS01', '1182', 'CSCI', 'CSCI 320 ', 22919, '3475276604', '@smtext.com')");
 
 // pool.query("SELECT * FROM classes");
 

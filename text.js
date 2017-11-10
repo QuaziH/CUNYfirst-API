@@ -95,9 +95,6 @@ let emailError = (phone, body) => {
     });
 };
 
-// twilio('3475276604', 'test');
-// emailOpen('9177160864@vtext.net', 'test');
-// Only T-Mobile and MetroPCS works well
 module.exports = {
     emailOpen,
     emailConfirmation,
