@@ -398,7 +398,7 @@ var start = new Date().getTime();
 //     console.error(error);
 // });
 
-// getSpecificCourse('QNS01', '1182', 'ANTH', '102').then((classes) => {
+// getSpecificCourse('QNS01', '1182', 'CSCI', '370').then((classes) => {
 //     console.log(JSON.stringify(classes, undefined, 2));
 //     let end = new Date().getTime();
 //     let time = end - start;
