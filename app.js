@@ -7,7 +7,7 @@ const worker = require('./worker');
 
 let app = express();
 
-hbs.registerPartials(__dirname + '/views/partials');
+// hbs.registerPartials(__dirname + '/views/partials');
 app.set('view engine', 'hbs');
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -25,8 +25,12 @@ app.get('/subjects/:inst', async (req, res) => {
 });
 
 app.get('/subjects/:inst/:term', async (req, res) => {
-    let subject = await worker.subject(req.params.inst, req.params.term);
+    let subject = await worker.subject(req.params.inst,req.params.term);
     res.send(subject);
+});
+app.get('/subjects/:inst/:term/:subject/:classNum', async(req, res) => {
+    let classes = await worker.getSpecificCourse(req.params.inst,req.params.term,req.params.subject,req.params.classNum);
+    res.send(classes);
 });
 
 app.post('/add', (req, res) => {
