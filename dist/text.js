@@ -18,6 +18,16 @@ var twilio = function twilio(phone, body) {
     });
 };
 
+var twilioBatch = function twilioBatch(phone, body) {
+    client.messages.create({
+        to: phone,
+        from: '+19082800331',
+        body: 'Your classes have been added: \n ' + body
+    }).then(function (message) {
+        return console.log(message.sid);
+    });
+};
+
 var emailOpen = function emailOpen(phone, body) {
     var transporter = nodemailer.createTransport({
         service: 'Gmail',
@@ -96,6 +106,10 @@ var emailError = function emailError(phone, body) {
         console.log('Message sent: %s', info.messageId);
     });
 };
+
+// let hello = [`1`, `\n 2`, `\n 4`, `\n 6`, `\n 7`];
+//
+// twilioBatch('3475276604', hello);
 
 module.exports = {
     emailOpen: emailOpen,

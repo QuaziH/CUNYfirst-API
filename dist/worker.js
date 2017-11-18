@@ -418,6 +418,7 @@ var start = new Date().getTime();
 
 module.exports = {
     subject: subject,
-    term: term
+    term: term,
+    getSpecificCourse: getSpecificCourse
 };
 //# sourceMappingURL=worker.js.map

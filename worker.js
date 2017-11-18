@@ -416,5 +416,6 @@ let start = new Date().getTime();
 
 module.exports = {
     subject,
-    term
+    term,
+    getSpecificCourse
 };

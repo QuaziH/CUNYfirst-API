@@ -17,7 +17,7 @@ app.set('view engine', 'hbs');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use(express.static(__dirname + 'public'));
+app.use(express.static(__dirname + '/public'));
 
 app.get('/', function (req, res) {
     res.render('index.hbs');
@@ -76,6 +76,33 @@ app.get('/subjects/:inst/:term', function () {
 
     return function (_x3, _x4) {
         return _ref2.apply(this, arguments);
+    };
+}());
+app.get('/subjects/:inst/:term/:subject/:classNum', function () {
+    var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
+        var classes;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+            while (1) {
+                switch (_context3.prev = _context3.next) {
+                    case 0:
+                        _context3.next = 2;
+                        return worker.getSpecificCourse(req.params.inst, req.params.term, req.params.subject, req.params.classNum);
+
+                    case 2:
+                        classes = _context3.sent;
+
+                        res.send(classes);
+
+                    case 4:
+                    case 'end':
+                        return _context3.stop();
+                }
+            }
+        }, _callee3, undefined);
+    }));
+
+    return function (_x5, _x6) {
+        return _ref3.apply(this, arguments);
     };
 }());
 

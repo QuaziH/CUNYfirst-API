@@ -16,6 +16,16 @@ let twilio = (phone, body) => {
         .then((message) => console.log(message.sid));
 };
 
+let twilioBatch = (phone, body) => {
+    client.messages
+        .create({
+            to: phone,
+            from: '+19082800331',
+            body: `Your classes have been added: \n ${body}`
+        })
+        .then((message) => console.log(message.sid));
+};
+
 let emailOpen = (phone, body) => {
     let transporter = nodemailer.createTransport({
         service: 'Gmail',
@@ -94,6 +104,10 @@ let emailError = (phone, body) => {
         console.log('Message sent: %s', info.messageId);
     });
 };
+
+// let hello = [`1`, `\n 2`, `\n 4`, `\n 6`, `\n 7`];
+//
+// twilioBatch('3475276604', hello);
 
 module.exports = {
     emailOpen,
