@@ -171,6 +171,7 @@ var getSpecificCourse = function getSpecificCourse(inst, term, subject, course) 
                             var dates = $('#MTG_TOPIC\\$' + section).text();
                             var status = $('#win0divDERIVED_CLSRCH_SSR_STATUS_LONG\\$' + section).children()[0].children[3].attribs.alt;
                             var description = $('#DERIVED_CLSRCH_DESCRLONG\\$' + section).text();
+                            var topic = $(idTitle).text().substring(1, $(idTitle).text().indexOf('-'));
 
                             classes[$(idTitle).text()][classNumber] = {};
                             classes[$(idTitle).text()][classNumber]['Class'] = classNumber;
@@ -181,6 +182,7 @@ var getSpecificCourse = function getSpecificCourse(inst, term, subject, course) 
                             classes[$(idTitle).text()][classNumber]['Dates'] = dates;
                             classes[$(idTitle).text()][classNumber]['Status'] = status;
                             classes[$(idTitle).text()][classNumber]['Description'] = description;
+                            classes[$(idTitle).text()][classNumber]['Topic'] = topic;
 
                             section++;
                         }

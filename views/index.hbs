@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class="container">
-        <form id="class_form" method="" action="">
+        <div id="class_form">
             <h3>Choose your course</h3>
             <fieldset>
                 <select name="institution" id="institution" onchange="getInstTermVal(event)">
@@ -42,7 +42,7 @@
 
             <fieldset>
                 <select id="term" name="term" onchange="getInstTermVal(event)">
-                    <option value="" selected="selected">Choose term...</option>
+                    <option value="" selected="selected">Choose Term...</option>
                     <option value="1179" >Fall Semester 2017</option>
                     <option value="1182" >Spring Semester 2018</option>
                 </select>
@@ -50,7 +50,7 @@
 
             <fieldset>
                 <select id="subject" name="subject">
-                    <option value="" selected="selected">Choose subject...</option>
+                    <option value="" selected="selected">Choose Subject...</option>
                 </select>
             </fieldset>
 
@@ -61,11 +61,10 @@
             <fieldset>
                 <button name="submit" type="submit" id="contact-submit" onclick=getSpecificCourse(event)>Submit</button>
             </fieldset>
-        </form>
+        </div>
     </div>
 
-    <div class="table-responsive-vertical class_table">
-        <!-- Table starts here -->
+    <div class="table-responsive-vertical" id="class_table">
         <table id="table" class="table table-hover">
             <thead>
                 <tr>
@@ -76,25 +75,8 @@
                     <th>Select</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td data-title="ID">1</td>
-                    <td data-title="Name">Material Design Color Palette</td>
-                    <td data-title="Link">
-                        <a href="https://github.com/zavoloklom/material-design-color-palette" target="_blank">GitHub</a>
-                    </td>
-                    <td data-title="Status">Completed</td>
-                    <td>afadfasdf</td>
-                </tr>
-                <tr>
-                    <td data-title="ID">1</td>
-                    <td data-title="Name">Material Design Color Palette</td>
-                    <td data-title="Link">
-                        <a href="https://github.com/zavoloklom/material-design-color-palette" target="_blank">GitHub</a>
-                    </td>
-                    <td data-title="Status">Completed</td>
-                    <td>afadfasdf</td>
-                </tr>
+            <tbody id="table_body">
+
             </tbody>
         </table>
     </div>
@@ -103,9 +85,10 @@
         function getSpecificCourse(event){
             fetch(`/subjects/${document.querySelector('#institution').value}/${document.querySelector('#term').value}/${document.querySelector('#subject').value}/${document.querySelector('#class_num').value}/`).then(async (res) =>{
                 let classes = await res.json();
+                document.getElementById('table').style.visibility = "visible";
                 for(let key in classes){
                     if(classes.hasOwnProperty(key)){
-                        document.getElementById("modal-title").innerHTML = `${classes[key]}`;
+//                        document.getElementById("modal-title").innerHTML = `${classes[key]}`;
 
                         for(let secKey in classes[key]){
                             if(classes[key].hasOwnProperty(secKey)) {
@@ -113,10 +96,11 @@
                                 let dayTime = classes[key][secKey]['Days & Time'];
                                 let room = classes[key][secKey].Room;
                                 let instructor = classes[key][secKey].Instructor;
-                                document.getElementById("table").insertRow(-1).innerHTML = `<td>${classNmbr}</td>` +
+                                document.getElementById("table_body").insertRow(-1).innerHTML = `<td>${classNmbr}</td>` +
                                         `<td>${dayTime}</td>` +
                                         `<td>${room}</td>` +
-                                        `<td>${instructor}</td>`;
+                                        `<td>${instructor}</td>` +
+                                        `<td><button type="submit">Add to cart</button></td>`;
                             }
                         }
                     }

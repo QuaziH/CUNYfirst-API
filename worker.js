@@ -199,6 +199,7 @@ let getSpecificCourse = (inst, term, subject, course) => {
                             let dates = $(`#MTG_TOPIC\\$${section}`).text();
                             let status = $(`#win0divDERIVED_CLSRCH_SSR_STATUS_LONG\\$${section}`).children()[0].children[3].attribs.alt;
                             let description = $(`#DERIVED_CLSRCH_DESCRLONG\\$${section}`).text();
+                            let topic = $(idTitle).text().substring(1, $(idTitle).text().indexOf('-'));
 
                             classes[$(idTitle).text()][classNumber] = {};
                             classes[$(idTitle).text()][classNumber]['Class'] = classNumber;
@@ -209,6 +210,7 @@ let getSpecificCourse = (inst, term, subject, course) => {
                             classes[$(idTitle).text()][classNumber]['Dates'] = dates;
                             classes[$(idTitle).text()][classNumber]['Status'] = status;
                             classes[$(idTitle).text()][classNumber]['Description'] = description;
+                            classes[$(idTitle).text()][classNumber]['Topic'] = topic;
 
                             section++;
                         }
