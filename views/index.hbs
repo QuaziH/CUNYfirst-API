@@ -9,83 +9,98 @@
     <link rel="stylesheet/less" type="text/css" href="css/table.less" />
 </head>
 <body>
-    <div class="container">
-        <div id="class_form">
-            <h3>Choose your course</h3>
-            <fieldset>
-                <select name="institution" id="institution" onchange="getInstTermVal(event)">
-                    <option value="" selected="selected">Choose college...</option>
-                    <option value="BAR01">Baruch College</option>
-                    <option value="BMC01">Borough of Manhattan CC</option>
-                    <option value="BCC01">Bronx CC</option>
-                    <option value="BKL01">Brooklyn College</option>
-                    <option value="LAW01">CUNY School of Law</option>
-                    <option value="MED01">CUNY School of Medicine</option>
-                    <option value="SPH01">CUNY School of Public Health</option>
-                    <option value="CTY01">City College</option>
-                    <option value="CSI01">College of Staten Island</option>
-                    <option value="NCC01">Guttman CC</option>
-                    <option value="HOS01">Hostos CC</option>
-                    <option value="HTR01">Hunter College</option>
-                    <option value="JJC01">John Jay College</option>
-                    <option value="KCC01">Kingsborough CC</option>
-                    <option value="LAG01">LaGuardia CC</option>
-                    <option value="LEH01">Lehman College</option>
-                    <option value="MEC01">Medgar Evers College</option>
-                    <option value="NYT01">NYC College of Technology</option>
-                    <option value="QNS01">Queens College</option>
-                    <option value="QCC01">Queensborough CC</option>
-                    <option value="SPS01">School of Professional Studies</option>
-                    <option value="YRK01">York College</option>
-                </select>
-            </fieldset>
 
-            <fieldset>
-                <select id="term" name="term" onchange="getInstTermVal(event)">
-                    <option value="" selected="selected">Choose Term...</option>
-                    <option value="1179" >Fall Semester 2017</option>
-                    <option value="1182" >Spring Semester 2018</option>
-                </select>
-            </fieldset>
+    <form method="POST" action="/add">
+        <div class="container">
+            <div id="class_form">
+                <h3>Choose your course</h3>
+                <fieldset>
+                    <select name="institution" id="institution" onchange="getInstTermVal(event)">
+                        <option value="" selected="selected">Choose college...</option>
+                        <option value="BAR01">Baruch College</option>
+                        <option value="BMC01">Borough of Manhattan CC</option>
+                        <option value="BCC01">Bronx CC</option>
+                        <option value="BKL01">Brooklyn College</option>
+                        <option value="LAW01">CUNY School of Law</option>
+                        <option value="MED01">CUNY School of Medicine</option>
+                        <option value="SPH01">CUNY School of Public Health</option>
+                        <option value="CTY01">City College</option>
+                        <option value="CSI01">College of Staten Island</option>
+                        <option value="NCC01">Guttman CC</option>
+                        <option value="HOS01">Hostos CC</option>
+                        <option value="HTR01">Hunter College</option>
+                        <option value="JJC01">John Jay College</option>
+                        <option value="KCC01">Kingsborough CC</option>
+                        <option value="LAG01">LaGuardia CC</option>
+                        <option value="LEH01">Lehman College</option>
+                        <option value="MEC01">Medgar Evers College</option>
+                        <option value="NYT01">NYC College of Technology</option>
+                        <option value="QNS01">Queens College</option>
+                        <option value="QCC01">Queensborough CC</option>
+                        <option value="SPS01">School of Professional Studies</option>
+                        <option value="YRK01">York College</option>
+                    </select>
+                </fieldset>
 
-            <fieldset>
-                <select id="subject" name="subject">
-                    <option value="" selected="selected">Choose Subject...</option>
-                </select>
-            </fieldset>
+                <fieldset>
+                    <select id="term" name="term" onchange="getInstTermVal(event)">
+                        <option value="" selected="selected">Choose Term...</option>
+                        <option value="1179">Fall Semester 2017</option>
+                        <option value="1182">Spring Semester 2018</option>
+                    </select>
+                </fieldset>
 
-            <fieldset>
-                <input type="number" id="class_num" name="class_num" placeholder="Course Number">
-            </fieldset>
+                <fieldset>
+                    <select id="subject" name="subject">
+                        <option value="" selected="selected">Choose Subject...</option>
+                    </select>
+                </fieldset>
 
-            <fieldset>
-                <button name="submit" type="submit" id="contact-submit" onclick=getSpecificCourse(event)>Submit</button>
-            </fieldset>
+                <fieldset>
+                    <input type="number" id="course_num" name="course_num" placeholder="Course Number">
+                </fieldset>
+
+                <fieldset>
+                    <button type="button" id="submit_class" onclick=getSpecificCourse(event)>Submit</button>
+                </fieldset>
+            </div>
         </div>
-    </div>
 
-    <div class="table-responsive-vertical" id="class_table">
-        <table id="table" class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Class Number</th>
-                    <th>Day & Time</th>
-                    <th>Location</th>
-                    <th>Instructor</th>
-                    <th>Select</th>
-                </tr>
-            </thead>
-            <tbody id="table_body">
+        <div class="table-responsive-vertical" id="class_table">
+            <table id="table" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Class Number</th>
+                        <th>Day & Time</th>
+                        <th>Location</th>
+                        <th>Instructor</th>
+                        <th>Select</th>
+                    </tr>
+                </thead>
+                <tbody id="table_body">
 
-            </tbody>
-        </table>
-    </div>
+                </tbody>
+            </table>
+        </div>
+    </form>
 
     <script>
+//        function addToDatabase(event){
+//            $(".submit_data").click(function() {
+//                let $item = $(this).closest("tr")
+//                        .find(".classNmbr")
+//                        .text();
+//
+//                console.log($item);
+////                $("#resultas").append($item);
+//            });
+//        }
+
         function getSpecificCourse(event){
-            fetch(`/subjects/${document.querySelector('#institution').value}/${document.querySelector('#term').value}/${document.querySelector('#subject').value}/${document.querySelector('#class_num').value}/`).then(async (res) =>{
+            fetch(`/subjects/${document.querySelector('#institution').value}/${document.querySelector('#term').value}/${document.querySelector('#subject').value}/${document.querySelector('#course_num').value}/`).then(async (res) =>{
                 let classes = await res.json();
                 document.getElementById('table').style.visibility = "visible";
+                $("tbody tr").remove();
                 for(let key in classes){
                     if(classes.hasOwnProperty(key)){
 //                        document.getElementById("modal-title").innerHTML = `${classes[key]}`;
@@ -96,11 +111,11 @@
                                 let dayTime = classes[key][secKey]['Days & Time'];
                                 let room = classes[key][secKey].Room;
                                 let instructor = classes[key][secKey].Instructor;
-                                document.getElementById("table_body").insertRow(-1).innerHTML = `<td>${classNmbr}</td>` +
+                                document.getElementById("table_body").insertRow(-1).innerHTML = `<td class="classNmbr">${classNmbr}</td>` +
                                         `<td>${dayTime}</td>` +
                                         `<td>${room}</td>` +
                                         `<td>${instructor}</td>` +
-                                        `<td><button type="submit">Add to cart</button></td>`;
+                                        `<td><button type="button" class="submit_data"">Add to cart</button></td>`;
                             }
                         }
                     }
