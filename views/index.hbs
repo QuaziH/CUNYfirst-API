@@ -66,6 +66,8 @@
             </div>
         </div>
 
+        <div id="loader" class="loader" style="visibility: hidden;"></div>
+
         <div class="table-responsive-vertical" id="class_table">
             <table id="table" class="table table-hover">
                 <thead>
@@ -97,6 +99,7 @@
 //        }
 
         function getSpecificCourse(event){
+            document.getElementById('loader').style.visibility = "visible";
             fetch(`/subjects/${document.querySelector('#institution').value}/${document.querySelector('#term').value}/${document.querySelector('#subject').value}/${document.querySelector('#course_num').value}/`).then(async (res) =>{
                 let classes = await res.json();
                 document.getElementById('table').style.visibility = "visible";
@@ -120,6 +123,7 @@
                         }
                     }
                 }
+                document.getElementById('loader').style.visibility = "hidden";
             });
         }
 
@@ -128,6 +132,7 @@
             $('#subject').append('<option value="">Choose Subject...</option>');
 
             if (document.querySelector('#institution').value !== '' && document.querySelector('#term').value !== '') {
+                document.getElementById('loader').style.visibility = "visible";
                 fetch(`/subjects/${document.querySelector('#institution').value}/${document.querySelector('#term').value}`).then(async (res) => {
                     let subject = await res.json();
                     for(let key in subject){
@@ -138,6 +143,7 @@
                             }));
                         }
                     }
+                    document.getElementById('loader').style.visibility = "hidden";
                 });
             }
         }
