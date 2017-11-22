@@ -105,6 +105,30 @@ let emailError = (phone, body) => {
     });
 };
 
+let emailContact = (email, subject, body) => {
+    let transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: process.env.EMAIL,
+            pass: process.env.EPASSWORD
+        }
+    });
+
+    let mailOptions = {
+        from: email,
+        to: `noclosedclass@gmail.com`,
+        subject: subject,
+        text: body
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            return console.log(error);
+        }
+        console.log('Message sent: %s', info.messageId);
+    });
+};
+
 // let hello = [`1`, `\n 2`, `\n 4`, `\n 6`, `\n 7`];
 //
 // twilioBatch('3475276604', hello);
@@ -113,5 +137,6 @@ module.exports = {
     emailOpen,
     emailConfirmation,
     emailError,
+    emailContact,
     twilio
 };

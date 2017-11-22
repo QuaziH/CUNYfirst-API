@@ -107,6 +107,30 @@ var emailError = function emailError(phone, body) {
     });
 };
 
+var emailContact = function emailContact(email, subject, body) {
+    var transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: process.env.EMAIL,
+            pass: process.env.EPASSWORD
+        }
+    });
+
+    var mailOptions = {
+        from: email,
+        to: 'noclosedclass@gmail.com',
+        subject: subject,
+        text: body
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            return console.log(error);
+        }
+        console.log('Message sent: %s', info.messageId);
+    });
+};
+
 // let hello = [`1`, `\n 2`, `\n 4`, `\n 6`, `\n 7`];
 //
 // twilioBatch('3475276604', hello);
@@ -115,6 +139,7 @@ module.exports = {
     emailOpen: emailOpen,
     emailConfirmation: emailConfirmation,
     emailError: emailError,
+    emailContact: emailContact,
     twilio: twilio
 };
 //# sourceMappingURL=text.js.map

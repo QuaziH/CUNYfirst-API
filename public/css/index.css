@@ -17,8 +17,33 @@ body {
     /*font-weight: 100;*/
     font-size: 14px;
     line-height: 30px;
-    color: #777;
+    /*color: #777;*/
     /*background: #4CAF50;*/
+}
+
+a, a:visited, a:hover, a:active {
+    color: inherit;
+}
+
+.main-header > a > p.title{
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    font-size: 32px;
+}
+
+.main-header > a > i.fa-question-circle-o {
+    position: absolute;
+    top: 12px;
+    right: 58px;
+    font-size: 32px;
+}
+
+.main-header > a > i.fa-envelope-o {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    font-size: 32px;
 }
 
 table{
@@ -35,7 +60,8 @@ table{
 #class_form {
     background: #F9F9F9;
     padding: 25px;
-    margin: 100px 0;
+    /*margin: 100px 0;*/
+    margin: 100px 0 25px 0;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
 
@@ -80,7 +106,8 @@ fieldset {
 
 #class_form select[id="institution"],
 #class_form select[id="term"],
-#class_form select[id="subject"] {
+#class_form select[id="subject"],
+#class_form select[id="carrier"] {
     width: 100%;
     border: 1px solid #ccc;
     background: #FFF;
@@ -90,7 +117,8 @@ fieldset {
 
 #class_form select[id="institution"]:hover,
 #class_form select[id="term"]:hover,
-#class_form select[id="subject"]:hover {
+#class_form select[id="subject"]:hover,
+#class_form select[id="carrier"]:hover{
     -webkit-transition: border-color 0.3s ease-in-out;
     -moz-transition: border-color 0.3s ease-in-out;
     transition: border-color 0.3s ease-in-out;
@@ -124,6 +152,21 @@ fieldset {
     border: 1px solid #aaa;
 }
 
+#confirmation{
+    display: block;
+    font-size: 16px;
+    margin-left: auto;
+    margin-right: auto;
+    color: red;
+    text-align: center;
+}
+
+#topic{
+    display: block;
+    font-size: 30px;
+    margin-left: 25px;
+}
+
 ::-webkit-input-placeholder {
     color: #888;
 }
@@ -141,12 +184,15 @@ fieldset {
 }
 
 .loader {
-    position: fixed;
-    margin: auto;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    top: 60%;
+    /*position: absolute;*/
+    /*margin: auto;*/
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 25px;
+    /*left: 0;*/
+    /*bottom: 0;*/
+    /*right: 0;*/
+    /*top: 0;*/
     border: 8px solid #f3f3f3; /* Light grey */
     border-top: 8px solid #3498db; /* Blue */
     border-radius: 50%;
@@ -158,4 +204,12 @@ fieldset {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+footer {
+    position: relative;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    text-align: center;
 }
