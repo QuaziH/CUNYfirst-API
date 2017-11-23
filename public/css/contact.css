@@ -1,11 +1,11 @@
 h1{
-    margin: 100px 0 25px 0;
+    margin: 50px 0 25px 0;
     text-align: center;
 }
 
-.contactform {
-    font: 16px Helvetica;
-}
+/*.contact-form {*/
+    /*font: 16px Helvetica;*/
+/*}*/
 
 .form_contact {
     width: 600px;
@@ -53,31 +53,24 @@ textarea {
     height: 200px;
 }
 
-.btn {
+.contact-button {
+    cursor: pointer;
+    border: none;
     background: #3498db;
-    background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
-    background-image: -moz-linear-gradient(top, #3498db, #2980b9);
-    background-image: -ms-linear-gradient(top, #3498db, #2980b9);
-    background-image: -o-linear-gradient(top, #3498db, #2980b9);
-    background-image: linear-gradient(to bottom, #3498db, #2980b9);
-    color: #ffffff;
-    font-size: 16px;
-    padding: 10px 20px 10px 20px;
-    text-decoration: none;
+    color: #FFF;
     margin: 25px 0 0 0;
+    padding: 10px 20px 10px 20px;
+    font-size: 18px;
 }
 
-.btn:hover {
-    background: #3cb0fd;
-    background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
-    background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
-    background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
-    background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
-    background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
-    text-decoration: none;
+.contact-button:hover {
+    background: #0288D1;
+    -webkit-transition: background 0.3s ease-in-out;
+    -moz-transition: background 0.3s ease-in-out;
+    transition: background-color 0.3s ease-in-out;
 }
 
-#button_wrapper {
+#button-wrapper {
     display: flex;
     justify-content: center;
 }

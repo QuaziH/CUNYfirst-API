@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const text = require('./text');
 const db = require('./db/index');
 const worker = require('./worker');
+const nodemailer = require('nodemailer');
 
 let app = express();
 
@@ -27,6 +28,10 @@ app.get('/contact', (req, res) => {
     res.render('contact.hbs');
 });
 
+app.get('/contact-confirmation', (req, res) => {
+    res.render('contact-confirmation.hbs');
+});
+
 app.get('/subjects/:inst', async (req, res) => {
     let term = await worker.term(req.params.inst);
     res.send(term);
@@ -45,7 +50,7 @@ app.get('/add/:inst/:term/:subj/:topic/:classNum/:phone/:carrier', async (req, r
     db.query("INSERT INTO classes (institution, term, subject, topic, class_num, phone, carrier) VALUES ($1, $2, $3, $4, $5, $6, $7)",
         [req.params.inst, req.params.term, req.params.subj, req.params.topic, req.params.classNum, req.params.phone, req.params.carrier], (error, response) => {
             if (error){
-                return res.send('500', `Error inserting into database: ${error}`);
+                return res.status(500).send(`Error inserting into database: ${error}`);
             }
         });
     if(req.params.carrier === '@tmomail.net' || req.params.carrier === '@mymetropcs.com'){
@@ -57,8 +62,31 @@ app.get('/add/:inst/:term/:subj/:topic/:classNum/:phone/:carrier', async (req, r
 });
 
 app.post('/contact', (req, res) => {
-    text.emailContact(`${req.body.email}`, `${req.body.subject}`, `${req.body.message} \n - ${req.body.first} ${req.body.last} ${req.body.email}`);
-    res.redirect('/'); //change it so it redirects to a page that confirms email was sent
+    console.log(req.body.email);
+    // text.emailContact(`${req.body.first}${req.body.last}, ${req.body.email}`, `${req.body.subject}`, `${req.body.message} \n - ${req.body.first} ${req.body.last} ${req.body.email}`);
+    let transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: process.env.EMAIL,
+            pass: process.env.EPASSWORD
+        }
+    });
+
+    let mailOptions = {
+        from: `${req.body.first} ${req.body.last} <${req.body.email}>`,
+        to: `noclosedclass@gmail.com`,
+        subject: req.body.subject,
+        text: `${req.body.message} \n - ${req.body.first} ${req.body.last} ${req.body.email}`
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.log(error);
+        }
+        // console.log('Message sent: %s', info.messageId);
+        transporter.close();
+    });
+    res.redirect('/contact-confirmation');
 });
 
 app.listen(3000, function(){

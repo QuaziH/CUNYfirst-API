@@ -7,6 +7,7 @@ function addToDatabase(classNmbr, topic){
 }
 
 function getSpecificCourse(event){
+    document.getElementById('confirmation').innerHTML = ``;
     if (document.querySelector('#institution').value !== '' && document.querySelector('#term').value !== '' && document.querySelector('#subject').value !== '' && document.querySelector('#course_num').value !== '') {
         document.getElementById('loader').style.visibility = "visible";
         fetch(`/subjects/${document.querySelector('#institution').value}/${document.querySelector('#term').value}/${document.querySelector('#subject').value}/${document.querySelector('#course_num').value}/`).then(async (res) => {
@@ -27,7 +28,7 @@ function getSpecificCourse(event){
                                 `<td>${dayTime}</td>` +
                                 `<td>${room}</td>` +
                                 `<td>${instructor}</td>` +
-                                `<td><button type="button" class="submit_data" onclick='addToDatabase(${classNmbr}, ${topic})'>Submit</button></td>`;
+                                `<td><button type="button" class="btn btn-primary submit-data" onclick="addToDatabase('${classNmbr}', '${topic}')">Submit</button></td>`;
                         }
                     }
                 }

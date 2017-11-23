@@ -13,6 +13,7 @@ function addToDatabase(classNmbr, topic) {
 function getSpecificCourse(event) {
     var _this = this;
 
+    document.getElementById('confirmation').innerHTML = '';
     if (document.querySelector('#institution').value !== '' && document.querySelector('#term').value !== '' && document.querySelector('#subject').value !== '' && document.querySelector('#course_num').value !== '') {
         document.getElementById('loader').style.visibility = "visible";
         fetch('/subjects/' + document.querySelector('#institution').value + '/' + document.querySelector('#term').value + '/' + document.querySelector('#subject').value + '/' + document.querySelector('#course_num').value + '/').then(function () {
@@ -43,7 +44,7 @@ function getSpecificCourse(event) {
                                                 instructor = classes[key][secKey].Instructor;
                                                 topic = classes[key][secKey].Topic;
 
-                                                document.getElementById("table_body").insertRow(-1).innerHTML = '<td class="classNmbr">' + classNmbr + '</td>' + ('<td>' + dayTime + '</td>') + ('<td>' + room + '</td>') + ('<td>' + instructor + '</td>') + ('<td><button type="button" class="submit_data" onclick=\'addToDatabase(' + classNmbr + ', ' + topic + ')\'>Submit</button></td>');
+                                                document.getElementById("table_body").insertRow(-1).innerHTML = '<td class="classNmbr">' + classNmbr + '</td>' + ('<td>' + dayTime + '</td>') + ('<td>' + room + '</td>') + ('<td>' + instructor + '</td>') + ('<td><button type="button" class="btn btn-primary submit-data" onclick="addToDatabase(\'' + classNmbr + '\', \'' + topic + '\')">Submit</button></td>');
                                             }
                                         }
                                     }
@@ -111,6 +112,10 @@ function getSubject(event) {
         }());
     }
 }
+
+$(".submit-data").click(function () {
+    $('.fadeOut').toggleClass('fadeOut-active');
+});
 
 /*
     function getInst(event) {

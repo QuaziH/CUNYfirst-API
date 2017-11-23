@@ -7,15 +7,14 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
     <link type="text/css" rel="stylesheet" href="css/index.css" >
-    <link rel="stylesheet/less" type="text/css" href="css/table.less" />
 </head>
 <body>
     {{> header}}
     <div class="container">
         <div id="class_form">
-            <h3>Choose your course</h3>
+            <h3 class="" >Choose your course</h3>
             <fieldset>
-                <select name="institution" id="institution" onchange="getSubject(event)" required>
+                <select name="institution" id="institution" onchange="getSubject(event)">
                     <option value="" selected="selected">Choose College...</option>
                     <option value="BAR01">Baruch College</option>
                     <option value="BMC01">Borough of Manhattan CC</option>
@@ -43,7 +42,7 @@
             </fieldset>
 
             <fieldset>
-                <select id="term" name="term" onchange="getSubject(event)" required>
+                <select id="term" name="term" onchange="getSubject(event)">
                     <option value="" selected="selected">Choose Term...</option>
                     <option value="1179">Fall Semester 2017</option>
                     <option value="1182">Spring Semester 2018</option>
@@ -51,21 +50,21 @@
             </fieldset>
 
             <fieldset>
-                <select id="subject" name="subject" required>
+                <select id="subject" name="subject">
                     <option value="" selected="selected">Choose Subject...</option>
                 </select>
             </fieldset>
 
             <fieldset>
-                <input type="number" id="course_num" name="course_num" placeholder="Course Number" required>
+                <input type="number" id="course_num" name="course_num" placeholder="Course Number">
             </fieldset>
 
             <fieldset>
-                <input type="number" id="phone_num" name="phone_num" placeholder="Phone Number" required>
+                <input type="number" id="phone_num" name="phone_num" placeholder="Phone Number">
             </fieldset>
 
             <fieldset>
-                <select id="carrier" name="carrier" required>
+                <select id="carrier" name="carrier">
                     <option value="" selected="selected">Choose your carrier...</option>
                     <option value="@tmomail.net">T-Mobile</option>
                     <option value="@mymetropcs.com">MetroPCS</option>
@@ -74,7 +73,7 @@
             </fieldset>
 
             <fieldset>
-                <button type="button" id="submit_class" onclick="getSpecificCourse(event)">Submit</button>
+                <button type="button" id="submit-class" onclick="getSpecificCourse(event)">Submit</button>
             </fieldset>
         </div>
     </div>
