@@ -3,6 +3,7 @@
     <properties>
       <sourceFilesUrls>
         <item url="file://$PROJECT_DIR$/dist/cf-api.js" />
+        <item url="file://$PROJECT_DIR$/dist/public/js/index.js" />
         <item url="file://$PROJECT_DIR$/dist/worker.js" />
         <item url="file://$PROJECT_DIR$/dist/app.js" />
         <item url="file://$PROJECT_DIR$/dist/looper.js" />
@@ -12,6 +13,7 @@
     </properties>
     <CLASSES>
       <root url="file://$PROJECT_DIR$/dist/cf-api.js" />
+      <root url="file://$PROJECT_DIR$/dist/public/js/index.js" />
       <root url="file://$PROJECT_DIR$/dist/worker.js" />
       <root url="file://$PROJECT_DIR$/dist/app.js" />
       <root url="file://$PROJECT_DIR$/dist/looper.js" />
