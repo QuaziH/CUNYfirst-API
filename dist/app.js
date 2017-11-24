@@ -10,6 +10,8 @@ var db = require('./db/index');
 var worker = require('./worker');
 var nodemailer = require('nodemailer');
 
+var port = process.env.PORT || 3000;
+
 var app = express();
 
 app.set('view engine', 'hbs');
@@ -178,7 +180,7 @@ app.post('/contact', function (req, res) {
     res.redirect('/contact-confirmation');
 });
 
-app.listen(3000, function () {
-    console.log('Server started on port 3000');
+app.listen(port, function () {
+    console.log('Server started on port ' + port);
 });
 //# sourceMappingURL=app.js.map
