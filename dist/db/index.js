@@ -10,7 +10,7 @@ var pool = new Pool({
     host: process.env.HOST,
     database: process.env.DATABASE,
     password: process.env.POOL_PASSWORD,
-    port: process.env.PORT
+    port: process.env.DBPORT
 });
 
 // pool.query("SELECT * FROM classes");
