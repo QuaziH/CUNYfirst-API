@@ -43,9 +43,9 @@
 
             <fieldset>
                 <select id="term" name="term" onchange="getSubject(event)">
-                    <option value="" selected="selected">Choose Term...</option>
+                    <option value="">Choose Term...</option>
                     <option value="1179">Fall Semester 2017</option>
-                    <option value="1182">Spring Semester 2018</option>
+                    <option value="1182" selected="selected">Spring Semester 2018</option>
                 </select>
             </fieldset>
 
@@ -56,18 +56,28 @@
             </fieldset>
 
             <fieldset>
-                <input type="number" id="course_num" name="course_num" placeholder="Course Number">
+                <input type="number" id="course_num" name="course_num" placeholder="Course Number Ex. '101'">
             </fieldset>
 
             <fieldset>
-                <input type="number" id="phone_num" name="phone_num" placeholder="Phone Number">
+                <input type="number" id="phone_num" name="phone_num" placeholder="Phone Number Ex. 7184567890">
             </fieldset>
 
             <fieldset>
                 <select id="carrier" name="carrier">
-                    <option value="" selected="selected">Choose your carrier...</option>
+                    <option value="">Enter carrier...</option>
+                    <option value="@txt.att.net">AT&T</option>
                     <option value="@tmomail.net">T-Mobile</option>
+                    <option value="@messaging.sprintpcs.com">Sprint</option>
+                    <option value="@vtext.com">Verizon</option>
                     <option value="@mymetropcs.com">MetroPCS</option>
+                    <option value="@smtext.com">Simple Mobile</option>
+                    <option value="@sms.mycricket.com">Cricket</option>
+                    <option value="@vmobl.com">Virgin Mobile</option>
+                    <option value="@email.uscc.net">US Cellular</option>
+                    <option value="@myboostmobile.com">Boost Mobile</option>
+                    <option value="@qwestmp.com">Qwest</option>
+                    <option value="@messaging.nextel.com">Nextel</option>
                     <option value="other">Other</option>
                 </select>
             </fieldset>

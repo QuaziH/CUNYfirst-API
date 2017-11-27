@@ -113,10 +113,6 @@ function getSubject(event) {
     }
 }
 
-$(".submit-data").click(function () {
-    $('.fadeOut').toggleClass('fadeOut-active');
-});
-
 /*
     function getInst(event) {
         fetch(`/subjects/`).then(async (res) => {

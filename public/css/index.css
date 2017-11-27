@@ -114,6 +114,7 @@ fieldset {
 
 #class_form input[type="number"]{
     text-indent: 4px;
+    width: 100%;
 }
 
 #class_form select[id="institution"],
@@ -242,3 +243,4 @@ fieldset {
 /*footer > div > span {*/
     /*text-align: center;*/
 /*}*/
+

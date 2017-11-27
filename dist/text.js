@@ -114,8 +114,6 @@ var emailContact = function emailContact(name, email, subject, body) {
 //
 // twilioBatch('3475276604', hello);
 
-emailConfirmation('7188696520@tmomail.net', 'testing');
-
 module.exports = {
     emailOpen: emailOpen,
     emailConfirmation: emailConfirmation,
